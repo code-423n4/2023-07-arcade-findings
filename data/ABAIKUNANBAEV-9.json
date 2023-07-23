@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "GSC allowance can be updated when setting new thresholds without waiting for 7 days cooldown period",
+  "issueId": 9,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/9"
+}
