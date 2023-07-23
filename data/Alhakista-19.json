@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Alhakista",
+  "risk": "3",
+  "title": "Exposure to reentrancy attack",
+  "issueId": 19,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/19"
+}
