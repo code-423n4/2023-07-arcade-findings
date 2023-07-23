@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ABA",
+  "risk": "2",
+  "title": "`NFTBoostVault::updateNft` allows any **ERC1155** to be supplied; doing so will slash voting power; users may be phished into losing their voting power",
+  "issueId": 13,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/13"
+}
