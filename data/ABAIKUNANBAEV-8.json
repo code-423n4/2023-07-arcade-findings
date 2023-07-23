@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "The owner can set too little expiration in ArcadeAirdrop.sol and reclaim all the remaining tokens",
+  "issueId": 8,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/8"
+}
