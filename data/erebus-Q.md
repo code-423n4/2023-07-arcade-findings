@@ -1,1 +1,3 @@
 Fix typo in [ReputationBadge.sol#L35](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/ReputationBadge.sol#L35) comment by changing "This contract uses a merkle trie..." to "This contract uses a merkle treE...".
+
+There are residual files in the project, namely the ones after doing `forge init ...`. The path is, from the root, the folers [src](https://github.com/code-423n4/2023-07-arcade/tree/main/src), the [test file](https://github.com/code-423n4/2023-07-arcade/blob/main/test/Counter.t.sol) and the next [script file](https://github.com/code-423n4/2023-07-arcade/blob/main/script/Counter.s.sol). Consider removing them and their respective empty folders
