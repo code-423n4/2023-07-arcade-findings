@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "dopeflamingo",
+  "risk": "3",
+  "title": "ARCDVestingVault.sol::delegate allows the caller to delegate their voting power to an address 0, which causes voting power to be lost.",
+  "issueId": 40,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/40"
+}
