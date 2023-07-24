@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "kodyvim",
+  "risk": "2",
+  "title": "Insufficient check for two address token on `batchcalls`",
+  "issueId": 30,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/30"
+}
