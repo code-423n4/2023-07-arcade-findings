@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "sixiecow",
+  "risk": "3",
+  "title": "An attacker can delagate without registring and force a constatnt multiplier on their votes",
+  "issueId": 23,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/23"
+}
