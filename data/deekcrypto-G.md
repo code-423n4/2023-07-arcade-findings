@@ -1,7 +1,7 @@
 # ARCDVestingVault.sol
 
 ## 1
-Reduce gas cost by 2 through using ternary operator instead of if statement.
+Reduce gas cost by 2 by using the ternary operator instead of the if statement.
 
 Lines 105-107:
 ```
@@ -12,11 +12,10 @@ Lines 105-107:
 New line:
 ``` 
    startTime = startTime == 0 ? uint128(block.number) : startTime;
-``````
+```
 
 ## 2
-Unnecessary new variable declaration `uint128 newVotingPower`. The variable `amount` is  not modified after the declaration, so it is better
-to use the existing variable instead. Reduces gas cost by 45.
+Unnecessary new variable declaration `uint128 newVotingPower`. The variable `amount` is not modified after its declaration, so using the existing variable instead is better. Reduces gas cost by 45.
 
 Lines 128-148:
 ```
@@ -67,7 +66,7 @@ Suggested change:
 ```
 
 ## 3
-If-else statement can be simplified. Reduces gas cost by 34.
+The if-else statement can be simplified. Reduces gas cost by 34.
 
 Line 138 ensures that `amount > withdrawable`:
 ```
@@ -118,8 +117,7 @@ Lines 348-352:
     emit VoteChange(grant.delegatee, who, change);
 ```
 
-As mentioned, the voting power can only go down. Therefore, it is safe to assume that the usage of `change`
-implies a negative value, so `uint256` can be safely used to optimize gas usage.
+As mentioned, the voting power can only go down. Therefore, it is safe to assume that the value of `change` is always negative value, so `uint256` can be used instead used to optimize gas usage.
 
 Suggested change:
 ```
