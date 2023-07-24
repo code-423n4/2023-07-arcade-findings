@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "startTime is set as block.number if initially it's 0 and then mistakenly compared to block.timestamp",
+  "issueId": 28,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/28"
+}
