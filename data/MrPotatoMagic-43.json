@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "MrPotatoMagic",
+  "risk": "3",
+  "title": "User's ETH can get locked in the ReputationBadge.sol contract if mint() function reverts",
+  "issueId": 43,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/43"
+}
