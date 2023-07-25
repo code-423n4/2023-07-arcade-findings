@@ -45,13 +45,10 @@ Changing immutable variables to i_variable improves readability of the codebase.
 There are 2 instances of this issue:
 
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/BaseVotingVault.sol#L33
-```solidity
-File: contracts/BaseVotingVault.sol
-33: IERC20 public immutable token;
-```
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/BaseVotingVault.sol#L36
 ```solidity
 File: contracts/BaseVotingVault.sol
+33: IERC20 public immutable token;
 36: uint256 public immutable staleBlockLag;
 ```
 
@@ -62,14 +59,56 @@ Incorrect comments should be erased or modified to prevent readers from gaining 
 There are 2 instances of this issue:
 
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L116
-```solidity
-File: contracts/ArcadeTreasury.sol
-116: // Will underflow if amount is greater than remaining allowance
-```
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L197
 ```solidity
 File: contracts/ArcadeTreasury.sol
 116: // Will underflow if amount is greater than remaining allowance
+197: // Will underflow if amount is greater than remaining allowance
+```
+
+## [N-04] Consider using delete rather than assigning zero/false to clear values
+
+The delete keyword more closely matches the semantics of what is being done, and draws more attention to the changing of state, which may lead to a more thorough audit of its associated logic
+
+There are 16 instances of this issue:
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L251
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L252
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L253
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L254
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L499
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L565
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L566C9-L566C34
+```solidity
+File: contracts/NFTBoostVault.sol
+251: registration.amount = 0;
+252: registration.latestVotingPower = 0;
+253: registration.withdrawn = 0;
+254: registration.delegatee = address(0);
+499: registration.withdrawn = 0;
+565: registration.tokenAddress = address(0);
+566: registration.tokenId = 0;
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L133
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L178
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L179
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L180
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L181
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L182
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L183
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L184
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L185
+```solidity
+File: contracts/ARCDVestingVault.sol
+133: grant.withdrawn = 0;
+178: grant.allocation = 0;
+179: grant.cliffAmount = 0;
+180: grant.withdrawn = 0;
+181: grant.created = 0;
+182: grant.expiration = 0;
+183: grant.cliff = 0;
+184: grant.latestVotingPower = 0;
+185: grant.delegatee = address(0);
 ```
 
 ## [L-01] Use two-step change mechanism to change critical addresses
@@ -106,6 +145,6 @@ File: contracts/token/ArcadeToken.sol
 
 Using a two-step change mechanism (i.e. setting the new address to a temporary variable and letting the new address accept the ownership by calling another function which finally sets the address/role) for both these issues can prevent the problems mentioned.
 
-### Non-Critical issues: 3
+### Non-Critical issues: 4
 ### Low severity issues: 1
-### Total: 22 instances over 4 issues
+### Total: 38 instances over 4 issues
