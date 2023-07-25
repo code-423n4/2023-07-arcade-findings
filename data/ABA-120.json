@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ABA",
+  "risk": "2",
+  "title": "Non-registered users can interact with the protocol by bypassing checks via the faulty `NFTBoostVault::delegate` function",
+  "issueId": 120,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/120"
+}
