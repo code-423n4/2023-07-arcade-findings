@@ -37,3 +37,11 @@ consider if the manager wants to add a position by startTime == 0, which means s
 ```
 
 https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ARCDVestingVault.sol#L109
+
+### [N-4] cliffAmount checks does not allow a cliffAmount which equals to amount is problematic
+this line blocks atomic release, which means the token simply gets immediately available at cliff.
+
+```solidity
+if (cliff >= expiration || cliff < startTime) revert AVV_InvalidSchedule();
+```
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ARCDVestingVault.sol#L112
