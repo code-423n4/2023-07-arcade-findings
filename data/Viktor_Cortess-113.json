@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Viktor_Cortess",
+  "risk": "2",
+  "title": "Function _approve() won't work with USDT",
+  "issueId": 113,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/113"
+}
