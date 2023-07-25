@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "vote with more voting power from more vaults cannot be updated. VotingPower from vaults that is not used in the first vote cant be used in subsequent vote udpate",
+  "issueId": 52,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/52"
+}
