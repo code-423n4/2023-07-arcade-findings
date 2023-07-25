@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Bughunter101",
+  "risk": "2",
+  "title": "`ReputationBadge.mint()` does not check if `amount == 0`",
+  "issueId": 78,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/78"
+}
