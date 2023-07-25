@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "gscApprove can overlap the approved allowance of the same spender from previously approved value",
+  "issueId": 55,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/55"
+}
