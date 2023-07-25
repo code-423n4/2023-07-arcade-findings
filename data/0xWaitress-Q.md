@@ -1,3 +1,26 @@
+### [L-1] _getWithdrawableAmount revert due to division by zero, when block.number is equal to grant.cliff
+
+totalBlocksPostCliff would be zero, which gets used as a divisor for total un
+```solidity
+    function _getWithdrawableAmount(ARCDVestingVaultStorage.Grant memory grant) internal view returns (uint256) {
+        // if before cliff or created date, no tokens have unlocked
+        if (block.number < grant.cliff) {
+            return 0;
+        }
+        // if after expiration, return the full allocation minus what has already been withdrawn
+        if (block.number >= grant.expiration) {
+            return grant.allocation - grant.withdrawn;
+        }
+        // if after cliff, return vested amount minus what has already been withdrawn
+        uint256 postCliffAmount = grant.allocation - grant.cliffAmount;
+        uint256 blocksElapsedSinceCliff = block.number - grant.cliff;
+        uint256 totalBlocksPostCliff = grant.expiration - grant.cliff;
+        uint256 unlocked = grant.cliffAmount + (postCliffAmount * blocksElapsedSinceCliff) / totalBlocksPostCliff;
+
+        return unlocked - grant.withdrawn;
+    }
+```
+
 ### [N-1] calldatas in proposal in CoreVoting can be grouped into struct to avoid length checks 
 
 ```solidity
