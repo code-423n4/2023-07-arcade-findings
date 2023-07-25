@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Jorgect",
+  "risk": "2",
+  "title": "ArcadeTresury.sol contract is vulnerable to race condition ERC20 aproval",
+  "issueId": 53,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/53"
+}
