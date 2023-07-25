@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xnev",
+  "risk": "3",
+  "title": "[H-01] `NFTBoostVault.withdraw()/claim()`: Do not allow withdrawals when there are active ongoing proposals for voters",
+  "issueId": 114,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/114"
+}
