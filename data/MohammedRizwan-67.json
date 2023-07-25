@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "MohammedRizwan",
+  "risk": "2",
+  "title": "addGrantAndDelegate() does not verify the grant expiration has passed and other issues",
+  "issueId": 67,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/67"
+}
