@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "B353N",
+  "risk": "2",
+  "title": "Missing Zero Check For Address which is set as owner on constructor CoreVoting.sol",
+  "issueId": 75,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/75"
+}
