@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xnev",
+  "risk": "2",
+  "title": "[M-03] `ArcadeTreasury.batchCalls()`: Function can never be called again once threshold is set for ArcadeToken contract",
+  "issueId": 118,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/118"
+}
