@@ -36,3 +36,4 @@ consider if the manager wants to add a position by startTime == 0, which means s
         if (cliff >= expiration || cliff < startTime) revert AVV_InvalidSchedule();
 ```
 
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ARCDVestingVault.sol#L109
