@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Bughunter101",
+  "risk": "2",
+  "title": "`NFTBoostVault.delegate()` dose not check if `oldDelegateeVotes < registration.latestVotingPower`",
+  "issueId": 72,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/72"
+}
