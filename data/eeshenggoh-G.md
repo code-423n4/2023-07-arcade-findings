@@ -1,3 +1,45 @@
+# Summary
+
+The original function gscApprove in the provided Solidity code has a potential underflow issue and could waste gas due to unnecessary underflow checks.
+
+# Vulnerability
+
+The function gscApprove subtracts an amount from gscAllowance[token] without checking if amount is greater than gscAllowance[token]. This could lead to an underflow if amount is greater than gscAllowance[token]. However, since Solidity 0.8.0, the language has built-in overflow and underflow protection, and the transaction will be automatically reverted, preventing the underflow. This automatic check, while useful for preventing underflows, introduces additional gas costs.
+
+Permalink: https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L189-L201
+
+# Impact
+The potential underflow could lead to unexpected behavior in the contract. The automatic underflow check could also lead to unnecessary gas costs if the developer is certain that an underflow will not occur.
+
+# Proof of Concept
+
+The potential underflow can be demonstrated with the following code:
+`gscAllowance[token] -= amount; // Will revert if amount > gscAllowance[token]`
+
+# Mitigation
+
+To prevent the potential underflow and save gas, a validation check can be added to the function to ensure that amount is not greater than gscAllowance[token]. This check can be implemented with the require keyword, which only consumes the gas necessary to execute the function up to the point it failed. 
+
+Here's the modified function:
+```
+function gscApprove(
+    address token,
+    address spender,
+    uint256 amount
+) external onlyRole(GSC_CORE_VOTING_ROLE) nonReentrant {
+
+    // Check if amount is greater than the allowance
+    require(gscAllowance[token] >= amount, "Insufficient allowance");
+
+    if (spender == address(0)) revert T_ZeroAddress("spender");
+    if (amount == 0) revert T_ZeroAmount();
+
+    gscAllowance[token] -= amount;
+
+    _approve(token, spender, amount, spendThresholds[token].small);
+}
+```
+-----------------------------
 ## Issues found:
  G001: Don't Initialize Variables with Default Value
 
