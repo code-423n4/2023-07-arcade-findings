@@ -16,6 +16,8 @@
 | [L&#x2011;11] | Any tokens directly sent to ARCDVestingVault.sol will be permanently locked | 1 |
 | [L&#x2011;12] | Avoid setting null _merkleRoot in setMerkleRoot() | 1 |
 | [L&#x2011;13] | Use latest version of openzeppelin library for mitigating MerkleProof.sol bug | 1 |
+| [L&#x2011;14] | Misleading comment on upgradeable contracts | 1 |
+
 
 ### [L&#x2011;01]  _setupRole() is deprecated by openzeppelin
 In ArcadeTreasury.sol and ReputationBadge.sol, The constructor has used the _setupRole() function to set the roles in constructor. This function is inherited from openzeppelin AccessControl.sol but openzeppelin has deprecated _setupRole() function in favor of _grantRole().
@@ -349,3 +351,15 @@ https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f61
 
 ### Recommended Mitigation steps
 Update the openzeppelin library to latest version.
+
+### [L&#x2011;14]  Misleading comment on upgradeable contracts
+In NFTBoostVault.sol, the comments states, NFTBoostVault contract is upgradeable,
+
+```Solidity
+46    * This contract is Simple Proxy upgradeable which is the upgradeability system used for voting
+47    * vaults in Council.
+```
+However, per the discussion with sponsor none of the smart contracts in scope are upgradeable. Therefore the comment is misleading and it is incorrect.
+
+### Recommended Mitigation steps
+Delete the comment as the smart contracts are not upgradeable.
