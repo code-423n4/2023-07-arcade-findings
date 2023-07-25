@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xnev",
+  "risk": "2",
+  "title": "[M-01] `ARCDVestingVault.revokeGrant()/claim()`: `_unassigned()` Tokens is not updated after grant is revoked or claimed",
+  "issueId": 116,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/116"
+}
