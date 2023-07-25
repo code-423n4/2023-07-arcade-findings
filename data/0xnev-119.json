@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xnev",
+  "risk": "2",
+  "title": "[M-04] `ArcadeTreasury.blockExpenditure()`: Lack of segregation of expenditure limits for different tokens",
+  "issueId": 119,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/119"
+}
