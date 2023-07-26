@@ -1,14 +1,14 @@
 1 . TARGET : https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ArcadeTreasury.sol
 
-Remove redundant checks: In several functions, redundant checks for address validity and amount greater than zero were added. Since these checks are also done in the _spend and _approve internal functions,  remove them from individual functions to save gas.
+- Remove redundant checks: In several functions, redundant checks for address validity and amount greater than zero were added. Since these checks are also done in the _spend and _approve internal functions,  remove them from individual functions to save gas.
 
-Combine similar modifier checks: For functions that have similar access control modifiers, combined them into one onlyRole modifier check to save gas.
+- Combine similar modifier checks: For functions that have similar access control modifiers, combined them into one onlyRole modifier check to save gas.
 
-Replace the require statements with require with custom error messages: The custom error messages in the T_... errors library are more informative, so  use those for the require statements to provide clearer error messages when conditions are not met.
+- Replace the require statements with require with custom error messages: The custom error messages in the T_... errors library are more informative, so  use those for the require statements to provide clearer error messages when conditions are not met.
 
-Remove unnecessary state variable: The ETH_CONSTANT state variable was not used, so it was remove to reduce storage gas costs.
+- Remove unnecessary state variable: The ETH_CONSTANT state variable was not used, so it was remove to reduce storage gas costs.
 
-Optimize loop in batchCalls function: add a require statement to ensure that the targets and calldatas arrays have the same length to avoid potential out-of-bounds issues.
+- Optimize loop in batchCalls function: add a require statement to ensure that the targets and calldatas arrays have the same length to avoid potential out-of-bounds issues.
 
 Here's an optimized version of the ArcadeTreasury contract with the suggested improvements:
 
@@ -405,15 +405,15 @@ contract ArcadeTreasury is IArcadeTreasury, AccessControl, ReentrancyGuard {
 
 2 . TARGET : https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/BaseVotingVault.sol
 
-Inline Constant Variables: Instead of using the BVV_ZeroAddress and BVV_UpperLimitBlock error messages from an external file, we can directly inline these constant variables in the contract to save gas.
+- Inline Constant Variables: Instead of using the BVV_ZeroAddress and BVV_UpperLimitBlock error messages from an external file, we can directly inline these constant variables in the contract to save gas.
 
-Combine Setters: Since both setTimelock and setManager functions have similar logic, we can combine them into a single function to save gas on the function selectors and conditional checks.
+- Combine Setters: Since both setTimelock and setManager functions have similar logic, we can combine them into a single function to save gas on the function selectors and conditional checks.
 
-Use require instead of if: In modifier functions, using require is generally more gas-efficient than using if conditions with manual revert.
+- Use require instead of if: In modifier functions, using require is generally more gas-efficient than using if conditions with manual revert.
 
-Avoid Unnecessary Checks: Some checks, like verifying whether the token address is zero or not, can be skipped since the constructor already requires a valid token address to be provided.
+- Avoid Unnecessary Checks: Some checks, like verifying whether the token address is zero or not, can be skipped since the constructor already requires a valid token address to be provided.
 
-Combine External Function Calls: In the queryVotePower function, try to combine multiple external function calls to reduce gas costs.
+- Combine External Function Calls: In the queryVotePower function, try to combine multiple external function calls to reduce gas costs.
 
 Here is an optimized contract with above Optimized implemented :
 
@@ -501,11 +501,11 @@ abstract contract BaseVotingVault is HashedStorageReentrancyBlock, IBaseVotingVa
 
 3 . TARGET : https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ARCDVestingVault.sol
 
-In the claim function, store the current block number in a local variable currentBlock, and the cliff block number in a local variable cliffBlock, to avoid redundant calls to block.number and grant.cliff.
+- In the claim function, store the current block number in a local variable currentBlock, and the cliff block number in a local variable cliffBlock, to avoid redundant calls to block.number and grant.cliff.
 
-In the _getWithdrawableAmount function,  store all the required data (e.g., currentBlock, cliffBlock, expirationBlock, allocation, withdrawn, and cliffAmount) in local variables to avoid repeated access to contract storage during calculations.
+- In the _getWithdrawableAmount function,  store all the required data (e.g., currentBlock, cliffBlock, expirationBlock, allocation, withdrawn, and cliffAmount) in local variables to avoid repeated access to contract storage during calculations.
 
-These changes help reduce redundant gas costs associated with repeated state variable access and improve the overall gas efficiency of the contract. Additionally, the contract remains functionally unchanged and continues to work as intended.
+- These changes help reduce redundant gas costs associated with repeated state variable access and improve the overall gas efficiency of the contract. Additionally, the contract remains functionally unchanged and continues to work as intended.
 
  Here is an optimized  ARCDVestingVault contract with  gas reducing improvements:
 
@@ -617,23 +617,23 @@ contract ARCDVestingVault is IARCDVestingVault, HashedStorageReentrancyBlock, Ba
 
 4 . TARGET : https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol
 
-Batch transfers: Combine multiple transfers of ERC20 tokens and ERC1155 NFTs into single batch transfers using OpenZeppelin's IERC1155 interface's safeBatchTransferFrom and SafeERC20 library's safeTransferFrom to reduce gas costs.
+- Batch transfers: Combine multiple transfers of ERC20 tokens and ERC1155 NFTs into single batch transfers using OpenZeppelin's IERC1155 interface's safeBatchTransferFrom and SafeERC20 library's safeTransferFrom to reduce gas costs.
 
-Reduce storage writes: Minimize unnecessary state changes. Avoid writing to storage in cases where it is not required.
+- Reduce storage writes: Minimize unnecessary state changes. Avoid writing to storage in cases where it is not required.
 
-Use fixed-size arrays: If the number of elements in an array is fixed and known, use fixed-size arrays to save on gas costs.
+- Use fixed-size arrays: If the number of elements in an array is fixed and known, use fixed-size arrays to save on gas costs.
 
-Batch processing: When handling multiple users' voting power updates, consider batching the operations to reduce the number of iterations.
+- Batch processing: When handling multiple users' voting power updates, consider batching the operations to reduce the number of iterations.
 
-Inline modifiers: Inline simple modifiers directly in the function instead of defining them separately to save on contract size.
+- Inline modifiers: Inline simple modifiers directly in the function instead of defining them separately to save on contract size.
 
-Simplify validations: Review the necessity of certain validations and simplify or remove redundant checks.
+- Simplify validations: Review the necessity of certain validations and simplify or remove redundant checks.
 
-Avoid unused variables: Remove any unused variables to optimize the code.
+- Avoid unused variables: Remove any unused variables to optimize the code.
 
-Limit iteration length: Avoid loops with uncertain or potentially unbounded iteration lengths, as they can lead to high gas costs.
+- Limit iteration length: Avoid loops with uncertain or potentially unbounded iteration lengths, as they can lead to high gas costs.
 
-Minimize complex storage types: Limit the usage of complex storage types, such as mappings within mappings, to reduce gas costs.
+- Minimize complex storage types: Limit the usage of complex storage types, such as mappings within mappings, to reduce gas costs.
 
 
 Here  is an optimization  applied in contract: 
@@ -681,15 +681,15 @@ contract NFTBoostVault is INFTBoostVault, BaseVotingVault {
 
 5 . TARGET: https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/nft/ReputationBadge.sol
 
-Store ClaimData as a struct instead of individual mappings, which saves storage gas and simplifies the publishRoots function.
+- Store ClaimData as a struct instead of individual mappings, which saves storage gas and simplifies the publishRoots function.
 
-Use require statements with specific error messages to provide clear feedback on why the function reverted.
+- Use require statements with specific error messages to provide clear feedback on why the function reverted.
 
-Simplify the loop in the publishRoots function and avoiding unnecessary checks.
+- Simplify the loop in the publishRoots function and avoiding unnecessary checks.
 
-Removeredundant checks and storage reads.
+- Remove redundant checks and storage reads.
 
-Use require instead of revert for consistency and readability.
+- Use require instead of revert for consistency and readability.
 
  Here's an optimized version of the ReputationBadge contract with  gas-saving improvements:
 
@@ -822,17 +822,17 @@ contract ReputationBadge is ERC1155, AccessControl, ERC1155Burnable, IReputation
 
 6 . TARGET : https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/token/ArcadeTokenDistributor.sol
 
-Bitmask Flags:  replace individual boolean flags for each recipient with a single bitmask distributionStatus to represent whether each distribution has occurred or not. This reduces the storage slots used and minimizes gas costs.
+- Bitmask Flags:  replace individual boolean flags for each recipient with a single bitmask distributionStatus to represent whether each distribution has occurred or not. This reduces the storage slots used and minimizes gas costs.
 
-Modifiers for Checks:  replace the individual if checks at the beginning of each distribution function with a custom modifier notSent(mask) to check whether the distribution has already occurred or not.
+- Modifiers for Checks:  replace the individual if checks at the beginning of each distribution function with a custom modifier notSent(mask) to check whether the distribution has already occurred or not.
 
-Combined Constants:  mark constant variables (treasuryAmount, devPartnerAmount, etc.) with the constant modifier to avoid unnecessary storage reads.
+- Combined Constants:  mark constant variables (treasuryAmount, devPartnerAmount, etc.) with the constant modifier to avoid unnecessary storage reads.
 
-Combined Transfer and Emit:  remove the duplicate calls to arcadeToken.safeTransfer within each distribution function and emitted the Distribute event with the transferred amount directly in each function.
+- Combined Transfer and Emit:  remove the duplicate calls to arcadeToken.safeTransfer within each distribution function and emitted the Distribute event with the transferred amount directly in each function.
 
-Modifiers Reorder:  reorganize the modifiers in the functions to place the more likely to fail checks first, minimizing gas consumption.
+- Modifiers Reorder:  reorganize the modifiers in the functions to place the more likely to fail checks first, minimizing gas consumption.
 
-Valid Recipient Modifier:  add a new modifier onlyValidRecipient to ensure that distribution addresses are not set to the zero address.
+- Valid Recipient Modifier:  add a new modifier onlyValidRecipient to ensure that distribution addresses are not set to the zero address.
 
 Here's an updated version of the ArcadeTokenDistributor contract with   optimizations applied:
 
@@ -921,13 +921,13 @@ contract ArcadeTokenDistributor is Ownable {
 
 7 . TARGET : https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/token/ArcadeToken.sol
 
-Simplifiy and standardize the require statements for better readability and alignment with the latest Solidity style guidelines.
+- Simplifiy and standardize the require statements for better readability and alignment with the latest Solidity style guidelines.
 
-Remove redundant if statements, as they were not necessary for checking non-zero addresses or amounts. We used require statements instead to perform these checks more concisely.
+- Remove redundant if statements, as they were not necessary for checking non-zero addresses or amounts. We used require statements instead to perform these checks more concisely.
 
-Combine multiple conditions into single require statements to reduce gas costs.
+- Combine multiple conditions into single require statements to reduce gas costs.
 
-Remove unnecessary local variable assignments.
+- Remove unnecessary local variable assignments.
 
 Here's the  optimizations implemented in ArcadeToken Contract:
 
@@ -998,13 +998,13 @@ contract ArcadeToken is ERC20, ERC20Burnable, IArcadeToken, ERC20Permit {
 
 8 . TARGET :https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/token/ArcadeAirdrop.sol
 
-Remove unnecessary error checks in the constructor: The _governance address must be a non-zero address, but the constructor does not require a separate error check for this as it's already checked in the constructor of Authorizable (the base contract) through the onlyOwner modifier.
+- Remove unnecessary error checks in the constructor: The _governance address must be a non-zero address, but the constructor does not require a separate error check for this as it's already checked in the constructor of Authorizable (the base contract) through the onlyOwner modifier.
 
-Replace the if checks with require: Using require statements is more idiomatic and clearer when checking conditions that should not be true. The contract will revert with a clear error message if the condition is not met.
+- Replace the if checks with require: Using require statements is more idiomatic and clearer when checking conditions that should not be true. The contract will revert with a clear error message if the condition is not met.
 
-Remove redundant comment annotations: Some of the comments are straightforward and do not require additional explanations.
+- Remove redundant comment annotations: Some of the comments are straightforward and do not require additional explanations.
 
-Reordere modifiers and arguments for require statements: Placed the condition that is most likely to fail first in the require statements. This can save gas in some cases since the contract will stop execution as soon as a require statement fails.
+- Reorderer modifiers and arguments for require statements: Placed the condition that is most likely to fail first in the require statements. This can save gas in some cases since the contract will stop execution as soon as a require statement fails.
 
 Here's an optimized version of the ArcadeAirdrop contract with some gas-saving improvement:
 
