@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ayden",
+  "risk": "2",
+  "title": "`onERC1155Received` should ensure `operator` is the current contract",
+  "issueId": 158,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/158"
+}
