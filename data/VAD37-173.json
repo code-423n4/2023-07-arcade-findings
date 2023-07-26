@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "VAD37",
+  "risk": "3",
+  "title": "duplicate address in merkleroot will prevent user from minting all `ReputationBadge` token",
+  "issueId": 173,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/173"
+}
