@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xSwahili",
+  "risk": "2",
+  "title": "Re-entrancy risk attack while revoking grant",
+  "issueId": 140,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/140"
+}
