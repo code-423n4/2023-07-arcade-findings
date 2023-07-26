@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Matin",
+  "risk": "3",
+  "title": "Wrong day-in-block amount leads to unexpected and imprecise proposal locktime and extraVote time",
+  "issueId": 133,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/133"
+}
