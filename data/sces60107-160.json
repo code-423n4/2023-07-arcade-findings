@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "sces60107",
+  "risk": "3",
+  "title": "`NFTBoostVault.setMultiplier` doesn't change the current voting power immediately",
+  "issueId": 160,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/160"
+}
