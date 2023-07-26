@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "auditsea",
+  "risk": "2",
+  "title": "Zero address can be set as a delegatee in ARCDVestingVault",
+  "issueId": 184,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/184"
+}
