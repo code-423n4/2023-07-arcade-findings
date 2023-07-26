@@ -42,4 +42,11 @@ In loops where the number of runs is know in advance, update the counter to an `
 
 ```
 for(uint256 cont = 0; cont < ARRAY.length; ) {
-    ....
+    ...
+    unchecked {
+        cont += ...;
+    }
+}
+```
+
+The RE is `[^;\+]*\+\+`, `\+\+[^;\+\)]*` and the same for other operations
