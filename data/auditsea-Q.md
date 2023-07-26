@@ -1,4 +1,4 @@
-Zero remaining amount check is missing in `ARCDVestingVault::revokeGrant()`
+- Zero remaining amount check is missing in `ARCDVestingVault::revokeGrant()`
 
 Description
 
@@ -24,3 +24,7 @@ To fix this, we might wrap transfer call like below:
         token.safeTransfer(msg.sender, remaining);
     }
 ```
+
+- Can transfer 0 eth and result in wasting gas.
+As balance zero checking is missing in the code below, sending 0 eth might happen when mint price is optional.
+[ReputationBadge.sol#L163-L174](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/ReputationBadge.sol#L163-L174)
