@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "auditsea",
+  "risk": "3",
+  "title": "Malicious users can can set a delegatee belonged to other grant in ARCDVestingVault",
+  "issueId": 187,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/187"
+}
