@@ -52,18 +52,25 @@ File: contracts/BaseVotingVault.sol
 36: uint256 public immutable staleBlockLag;
 ```
 
-## [N-03] Redundant comments should be removed to improve code understandability
+## [N-03] Redundant comments should be removed/modified to improve code understandability
 
 Incorrect comments should be erased or modified to prevent readers from gaining faulty assumptions about the codebase.
 
-There are 2 instances of this issue:
+There are 3 instances of this issue:
 
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L116
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L197
+These comments incorrectly mention that underflow occurs when underflow does not actually occur but only causes revert (since we use compiler version ^0.8.0). This decreases code understandability during audits or when devs are reading the codebase. The "underflow" word should be replaced with "revert" to better suit the intention of the comment.
 ```solidity
 File: contracts/ArcadeTreasury.sol
 116: // Will underflow if amount is greater than remaining allowance
 197: // Will underflow if amount is greater than remaining allowance
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/BadgeDescriptor.sol#L42
+We use ERC1155 in the codebase and not ERC721. The comment should be updated with "ERC1155 token ID" for better code understandability.
+```solidity
+File: contracts/nft/BadgeDescriptor.sol
+42: * @notice Getter of specific URI for an ERC721 token ID.
 ```
 
 ## [N-04] Consider using delete rather than assigning zero/false to clear values
@@ -147,4 +154,4 @@ Using a two-step change mechanism (i.e. setting the new address to a temporary v
 
 ### Non-Critical issues: 4
 ### Low severity issues: 1
-### Total: 38 instances over 4 issues
+### Total: 39 instances over 4 issues
