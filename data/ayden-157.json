@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ayden",
+  "risk": "2",
+  "title": "`updateNft` should ensure `multiplier` is set for this token",
+  "issueId": 157,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/157"
+}
