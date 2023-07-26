@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xSwahili",
+  "risk": "2",
+  "title": "Missing check for matching input array lengths",
+  "issueId": 147,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/147"
+}
