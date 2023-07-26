@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0x70C9",
+  "risk": "2",
+  "title": "Method ETH transfer does not allow for smart contract account usage and adoption, besides being a dangerous hardcoded assumption",
+  "issueId": 180,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/180"
+}
