@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "BenRai",
+  "risk": "2",
+  "title": "When calling `setThreshold` in `ArcadeTreasury.sol` the allowance of the GSC is reduced but no the allowance given by the GSC",
+  "issueId": 166,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/166"
+}
