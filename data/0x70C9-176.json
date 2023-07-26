@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0x70C9",
+  "risk": "3",
+  "title": "Lack of initialize function in NFTBoostVault leaves proxy not initialized",
+  "issueId": 176,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/176"
+}
