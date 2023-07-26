@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "D_Auditor",
+  "risk": "2",
+  "title": "Improper comparison of block.number and block.timestamp in ArcadeGSCCoreVoting::proposal()",
+  "issueId": 134,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/134"
+}
