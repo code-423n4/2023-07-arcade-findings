@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0x70C9",
+  "risk": "2",
+  "title": "There is no cooldown between gscSpend and setGSCAllowance",
+  "issueId": 179,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/179"
+}
