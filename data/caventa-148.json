@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "caventa",
+  "risk": "2",
+  "title": "revokeGrant should add amount back to unassigned.data",
+  "issueId": 148,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/148"
+}
