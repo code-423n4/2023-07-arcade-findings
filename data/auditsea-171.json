@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "auditsea",
+  "risk": "2",
+  "title": "Expenditure of a block is being increased by ArcadeTreasury::_approve()",
+  "issueId": 171,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/171"
+}
