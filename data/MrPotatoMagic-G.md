@@ -78,15 +78,45 @@ File: contracts/ARCDVestingVault.sol
 
 ## [G-03] Public variable only accessed within contract should be marked private 
 
-**Deployment cost saved: 35587 gas**
+**Deployment gas cost saved: 120178 gas**
+
+There are 9 instances of this:
 
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/BadgeDescriptor.sol#L24
+Deployment gas saved: 35587 gas
 ```solidity
 File: contracts/nft/BadgeDescriptor.sol
 24: string public baseURI;
 ```
 
-### Total number of issues: 19
-### A] Total deployment cost: 35587 gas saved
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L34
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L39
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L44
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L49
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L54
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L59
+Each instance saves approximately 10500 gas.
+Deployment gas saved: 63000 gas  
+```solidity
+File: contracts/token/ArcadeTokenDistributor.sol
+34: bool public treasurySent;
+39: bool public devPartnerSent;
+44: bool public communityRewardsSent;
+49: bool public communityAirdropSent;
+54: bool public vestingTeamSent;
+59: bool public vestingPartnerSent;
+```
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeToken.sol#L94
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeToken.sol#L97
+Deployment gas saved: 21591 gas
+```solidity
+File: contracts/token/ArcadeToken.sol
+94: address public minter;
+97: uint256 public mintingAllowedAfter;
+```
+
+### Total number of issues: 27
+### A] Total deployment cost: 120178 gas saved
 ### B] Total function execution cost: 1926 gas saved (per all calls)
-### Total gas saved [A + B]: 37513 gas saved
+### Total gas saved [A + B]: 122104 gas saved
