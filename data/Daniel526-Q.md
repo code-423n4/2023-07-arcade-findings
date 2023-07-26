@@ -1,0 +1,3 @@
+1. Timestamp Dependence: The contracts relies on `block.timestamp` for managing periods. However, using `block.timestamp` for critical security functions can be risky due to the potential for miners to manipulate it slightly. It is recommended to use block numbers or other mechanisms that are less susceptible to manipulation.
+Example: [Link](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/features/Timelock.sol#L1-L110)
+2. 
