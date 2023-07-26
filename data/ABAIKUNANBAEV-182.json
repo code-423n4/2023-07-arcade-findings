@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "Nobody can call setWaitTime() in TimeLock.sol due to the check",
+  "issueId": 182,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/182"
+}
