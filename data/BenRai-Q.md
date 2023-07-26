@@ -1,5 +1,3 @@
-Low!!!  
-
 ## L-01 Because grands are not revocable in `ARCDVestingVault.sol` tokens can be stuck in the contract for ever and their voting power can be lost
 
 If the private key of an address that received a grand gets lost it will never be able to claim the granted tokens or execute the voting power connected to the tokens and the tokens as well as the token voting power will be lost.
