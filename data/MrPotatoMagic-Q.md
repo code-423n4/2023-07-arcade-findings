@@ -260,7 +260,6 @@ File: contracts/ArcadeTreasury.sol
 ```
 This solution prevents updating the gscAllowance of a token which might be under the cooldown period and updates lastAllowanceSet[token] to current block.timestamp if the gscAllowance of the token was updated.
 
-**Note: I have included this issue in my low severity finding assuming that the admin is a good actor. In case the admin is not a good actor, I have submitted a high severity finding which addresses the impact on how the admin could exploit the ArcadeTreasury.sol contract.**
 
 ### Non-Critical issues: 4
 ### Low severity issues: 3
