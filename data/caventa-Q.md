@@ -84,3 +84,44 @@ if (registration.tokenAddress != address(0) && registration.tokenId != 0) {
 ```
 
 All these checking to ensure tokenId != 0 should be removed 
+
+5.
+
+Update nft is able to replace old tokenID with same tokenID
+
+See NFTBoostVault#updateNft
+
+```solidity
+ function updateNft(uint128 newTokenId, address newTokenAddress) external override nonReentrant {
+        if (newTokenAddress == address(0) || newTokenId == 0) revert NBV_InvalidNft(newTokenAddress, newTokenId);
+
+        if (IERC1155(newTokenAddress).balanceOf(msg.sender, newTokenId) == 0) revert NBV_DoesNotOwn();
+
+        NFTBoostVaultStorage.Registration storage registration = _getRegistrations()[msg.sender];
+
+        // If the registration does not have a delegatee, revert because the Registration
+        // is not initialized
+        if (registration.delegatee == address(0)) revert NBV_NoRegistration();
+
+        // if the user already has an ERC1155 registered, withdraw it
+        if (registration.tokenAddress != address(0) && registration.tokenId != 0) {
+            // withdraw the current ERC1155 from the registration
+            _withdrawNft();
+        }
+
+        // set the new ERC1155 values in the registration and lock the new ERC1155
+        registration.tokenAddress = newTokenAddress;
+        registration.tokenId = newTokenId;
+
+        _lockNft(msg.sender, newTokenAddress, newTokenId, 1);
+
+        // update the delegatee's voting power based on new ERC1155 nft's multiplier
+        _syncVotingPower(msg.sender, registration);
+    }
+```
+
+Although there is no severity issue if somebody does so, it should be prevented
+
+Recommendation
+
+Ensure if registration.tokenAddress == newTokenAddress, make sure registration.tokenId != newTokenId
