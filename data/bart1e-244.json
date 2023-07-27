@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "Safety mechanism in `ArcadeTreasury::batchCalls` may be bypassed if double entry point tokens are used",
+  "issueId": 244,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/244"
+}
