@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "oakcobalt",
+  "risk": "2",
+  "title": "Treasury token-specific spending limit might be applied to a different token, causing spending transactions to unexpectedly revert",
+  "issueId": 248,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/248"
+}
