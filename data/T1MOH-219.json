@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "T1MOH",
+  "risk": "2",
+  "title": "Updating merkleRoot in ArcadeAirdrop.sol may not work as intended",
+  "issueId": 219,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/219"
+}
