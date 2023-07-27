@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "`NFTBoostVault::setMultiplier` allows to set values lower than a default value (`1000`)",
+  "issueId": 230,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/230"
+}
