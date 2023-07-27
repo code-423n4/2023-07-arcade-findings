@@ -1,8 +1,45 @@
 # GAS OPTIMIZATIONS
 
+Gas optimizations can be done based on opcodes by using the following techniques
+
+- Reducing the ``SLOTs``  as much as possible.
+
+  - Pack state variables efficient way 
+  - If possible try down casting state variables to pack with same SLOT
+  - Pack structs efficient way 
+  - Use ``immutable`` when ever possible 
+
+- Using cheaper opcodes: Some opcodes are more expensive than others, so using the cheaper ones can save gas. For example, the SLOAD opcode is cheaper than the SSTORE opcode, so if you only need to read a value from storage, you should use SLOAD instead of SSTORE.
+
+- Caching data: If you need to access the same data multiple times, you can cache it in memory. This will save gas because you won't have to pay to access the data from storage each time.
+
+- Minimizing stack usage: The stack is a data structure that is used to store temporary values. Each value that is pushed onto the stack costs gas, so minimizing stack usage can save gas.
+
+
+
+| GAS COUNT   | ISSUES | INSTANCES    | GAS SAVED |
+|---------|-----|----------------|----------------|
+| [G-1]    | ``State variables`` can be packed to use fewer storage ``slots``  | 1   | 2000  |
+| [G-2]    | ``State variables`` should be ``cached`` in stack variables rather than re-reading them from storage  | 30   | 3000  |
+| [G-3]    | ``<x> += <y>`` costs more gas than ``<x> = <x> + <y>`` for state variables (<x> -= <y> ) | 15  | 1695   |
+| [G-4]    | ``IF’s/require()`` statements that check input arguments should be at the ``top`` of the function  | 10  | 3000   |
+| [G-5]    | Multiple accesses of a ``mapping/array`` should use a local variable cache  | 2   | 200   |
+| [G-6]    | Don't ``emit`` ``state variable`` when stack variable available | 2   | 200  |
+| [G-7]    | Use ``calldata`` instead of ``memory`` for function parameters  | 2   | 572   |
+|    |  |  |    |
+| [G-8]   | ``batchCalls`` function, if a single call fails, the entire transaction will be reverted | - |  -  |
+| [G-9]   | Use ``safeIncreaseAllowance()`` and ``safeDecreaseAllowance()`` instead of ``approve()`` | - |  -  |
+
+
+
+
+# TRADINAL GAS SAVINGS
+
 ##
 
 ## [G-1] State variables can be packed to use fewer storage slots
+
+### Saves ``2000 GAS``, ``1 SLOT``
 
 The EVM works with 32 byte words. Variables less than 32 bytes can be declared next to eachother in storage and this will pack the values together into a single 32 byte storage slot (if the values combined are <= 32 bytes). If the variables packed together are retrieved together in functions we will effectively save ~2000 gas with every subsequent SLOAD for that storage slot. This is due to us incurring a Gwarmaccess (100 gas) versus a Gcoldsload (2100 gas)
 
@@ -26,7 +63,7 @@ FILE: 2023-07-arcade/contracts/token/ArcadeToken.sol
 ```
 ##
 
-## [G-3] State variables should be cached in stack variables rather than re-reading them from storage
+## [G-2] State variables should be cached in stack variables rather than re-reading them from storage
 
 ### Saves ``3000 GAS``, ``30 SLODs``
 
@@ -302,96 +339,9 @@ FILE: Breadcrumbs2023-07-arcade/contracts/nft/BadgeDescriptor.sol
 + 49:  return bytes(baseURI_ ).length > 0 ? string(abi.encodePacked(baseURI_, tokenId.toString())) : "";
 
 ```
-
 ##
 
-## [G-2] Don't emit state variable when stack variable available
-
-### Saves ``200 GAS``, ``2 SLODs ``
-
-If stack can be emitted when ever available to save gas 
-
-### ``_newMinter`` can be used instead of ``minter`` state variable : Saves ``100 GAS``,``1 SLOD``
-
-https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeToken.sol#L136
-
-```diff
-FILE: Breadcrumbs2023-07-arcade/contracts/token/ArcadeToken.sol
-
-135:   minter = _newMinter;
-- 136:   emit MinterUpdated(minter);
-+ 136:   emit MinterUpdated(_newMinter);
-
-```
-### ``delegatee`` can be used instead of ``grant.delegatee`` state variable : Saves ``100 GAS``,``1 SLOD``
-
-https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L148
-
-
-
-```diff
-FILE: Breadcrumbs2023-07-arcade/contracts/ARCDVestingVault.sol
-
-138: grant.delegatee = delegatee;
-
-- 148: emit VoteChange(grant.delegatee, who, int256(uint256(newVotingPower)));
-+ 148: emit VoteChange(delegatee, who, int256(uint256(newVotingPower)));
-
-```
-
-##
-
-## [G-]  Multiple accesses of a mapping/array should use a local variable cache
-
-The instances below point to the second+ access of a value inside a mapping/array, within a function. Caching a mapping’s value in a local storage or calldata variable when the value is accessed multiple times, saves ~42 gas per access due to not having to recalculate the key’s keccak256 hash (Gkeccak256 - 30 gas) and that calculation’s associated stack operations. Caching an array’s struct avoids recalculating the array offsets into memory/calldata
-
-### ``lastAllowanceSet[token]`` should be cached : Saves ``100 GAS``, ``1 SLOT``
-
-
-https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L308-L310
-
-```diff
-FILE: 2023-07-arcade/contracts/ArcadeTreasury.sol
-
-Saves 100 GAS,1 SLOD
-
-307: // enforce cool down period
-+ uint48 _token = lastAllowanceSet[token];
-- 308:        if (uint48(block.timestamp) < lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN) {
-+ 308:        if (uint48(block.timestamp) < _token  + SET_ALLOWANCE_COOL_DOWN) {
-- 309:            revert T_CoolDownPeriod(block.timestamp, lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN);
-+ 309:            revert T_CoolDownPeriod(block.timestamp, _token  + SET_ALLOWANCE_COOL_DOWN);
-310:        }
-
-```
-
-### ``amountClaimed[recipient][tokenId]`` should be cached : Saves ``100 GAS, 1 SLOD``
-
-https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/ReputationBadge.sol#L111-L116
-
-```diff
-FILE: Breadcrumbs2023-07-arcade/contracts/nft/ReputationBadge.sol
-
- uint48 claimExpiration = claimExpirations[tokenId];
-+  uint256 recipienttokenId = amountClaimed[recipient][tokenId] ;
-        if (block.timestamp > claimExpiration) revert RB_ClaimingExpired(claimExpiration, uint48(block.timestamp));
-        if (msg.value < mintPrice) revert RB_InvalidMintFee(mintPrice, msg.value);
-        if (!_verifyClaim(recipient, tokenId, totalClaimable, merkleProof)) revert RB_InvalidMerkleProof();
--         if (amountClaimed[recipient][tokenId] + amount > totalClaimable) {
-+         if (recipienttokenId + amount > totalClaimable) {
-            revert RB_InvalidClaimAmount(amount, totalClaimable);
-        }
-
-        // increment amount claimed
--         amountClaimed[recipient][tokenId] += amount;
-+         amountClaimed[recipient][tokenId] = recipienttokenId + amount;
-
-
-```
-
-##
-
-## <x> += <y> costs more gas than <x> = <x> + <y> for state variables (<x> -= <y> )
+## [G-3] <x> += <y> costs more gas than <x> = <x> + <y> for state variables (<x> -= <y> )
 
 ### Saves ``1695 GAS``, ``15 Instances``
 
@@ -470,19 +420,282 @@ FILE: Breadcrumbs2023-07-arcade/contracts/NFTBoostVault.sol
 ```
 ##
 
-## [G-] IF’s/require() statements that check input arguments should be at the top of the function
+## [G-4] IF’s/require() statements that check input arguments should be at the top of the function
+
+### Saves ``3000 GAS`` 
 
 FAIL CHEEPLY INSTEAD OF COSTLY
 
 Checks that involve constants should come before checks that involve state variables, function calls, and calculations. By doing these checks first, the function is able to revert before wasting a Gcoldsload (2100 gas) in a function that may ultimately revert in the unhappy case.
 
-### Function parameters should be checked before state variables. If any revert after state variable check this will cost 
+### Cheaper to check the ``registration.delegatee == address(0)`` before making an external function call to ``IERC1155(newTokenAddress).balanceOf(msg.sender, newTokenId)`` : Saves ``2100 GAS``
+
+
+```diff
+FILE: 2023-07-arcade/contracts/NFTBoostVault.sol
+
+306: if (newTokenAddress == address(0) || newTokenId == 0) revert NBV_InvalidNft(newTokenAddress, newTokenId);
+307:
+- 308:        if (IERC1155(newTokenAddress).balanceOf(msg.sender, newTokenId) == 0) revert NBV_DoesNotOwn();
+309:
+310:        NFTBoostVaultStorage.Registration storage registration = _getRegistrations()[msg.sender];
+311:
+312:        // If the registration does not have a delegatee, revert because the Registration
+313:        // is not initialized
+314:        if (registration.delegatee == address(0)) revert NBV_NoRegistration();
++ 308:        if (IERC1155(newTokenAddress).balanceOf(msg.sender, newTokenId) == 0) revert NBV_DoesNotOwn();
+315:
+316:       // if the user already has an ERC1155 registered, withdraw it
+
+```
+
+### Function parameters should be checked before state variables. If any revert after state variable check this will cost : Saves ``900 GAS``
+
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L74-L75
+
+Any failure after state variable check this will costly failure . So ``_treasury `` should be checked first then state variable check
 
 
 ```diff
 FILE: 2023-07-arcade/contracts/token/ArcadeTokenDistributor.sol
 
+- 74: if (treasurySent) revert AT_AlreadySent();
+75: if (_treasury == address(0)) revert AT_ZeroAddress("treasury");
++ 74: if (treasurySent) revert AT_AlreadySent();
+
+- 90: if (devPartnerSent) revert AT_AlreadySent();
+91: if (_devPartner == address(0)) revert AT_ZeroAddress("devPartner");
++ 90: if (devPartnerSent) revert AT_AlreadySent();
+
+- 106: if (communityRewardsSent) revert AT_AlreadySent();
+107: if (_communityRewards == address(0)) revert AT_ZeroAddress("communityRewards");
++ 106: if (communityRewardsSent) revert AT_AlreadySent();
+
+- 122: if (communityAirdropSent) revert AT_AlreadySent();
+123: if (_communityAirdrop == address(0)) revert AT_ZeroAddress("communityAirdrop");
++ 122: if (communityAirdropSent) revert AT_AlreadySent();
+
+- 139: if (vestingTeamSent) revert AT_AlreadySent();
+140: if (_vestingTeam == address(0)) revert AT_ZeroAddress("vestingTeam");
++ 139: if (vestingTeamSent) revert AT_AlreadySent();
+
+- 156: if (vestingPartnerSent) revert AT_AlreadySent();
+157: if (_vestingPartner == address(0)) revert AT_ZeroAddress("vestingPartner");
++ 156: if (vestingPartnerSent) revert AT_AlreadySent();
+
+```
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeToken.sol#L146-L148
+
+```diff
+FILE: Breadcrumbs2023-07-arcade/contracts/token/ArcadeToken.sol
+
+- 146: if (block.timestamp < mintingAllowedAfter) revert AT_MintingNotStarted(mintingAllowedAfter, block.timestamp);
+147: if (_to == address(0)) revert AT_ZeroAddress("to");
+148: if (_amount == 0) revert AT_ZeroMintAmount();
++ 146: if (block.timestamp < mintingAllowedAfter) revert AT_MintingNotStarted(mintingAllowedAfter, block.timestamp);
+
+```
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeAirdrop.sol#L63-L64
+
+```diff
+FILE: 2023-07-arcade/contracts/token/ArcadeAirdrop.sol
+
+- 63: if (block.timestamp <= expiration) revert AA_ClaimingNotExpired();
+64: if (destination == address(0)) revert AA_ZeroAddress("destination");
++ 63: if (block.timestamp <= expiration) revert AA_ClaimingNotExpired();
+
+```
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L224
+
+```diff
+FILE: 2023-07-arcade/contracts/NFTBoostVault.sol
+
+- 224: if (getIsLocked() == 1) revert NBV_Locked();
+225: if (amount == 0) revert NBV_ZeroAmount();
++ 224: if (getIsLocked() == 1) revert NBV_Locked();
+
+```
+
+##
+
+## [G-5] Multiple accesses of a mapping/array should use a local variable cache
+
+### Saves ``200 GAS``, ``2 SLODs``
+
+The instances below point to the second+ access of a value inside a mapping/array, within a function. Caching a mapping’s value in a local storage or calldata variable when the value is accessed multiple times, saves ~42 gas per access due to not having to recalculate the key’s keccak256 hash (Gkeccak256 - 30 gas) and that calculation’s associated stack operations. Caching an array’s struct avoids recalculating the array offsets into memory/calldata
+
+### ``lastAllowanceSet[token]`` should be cached : Saves ``100 GAS``, ``1 SLOT``
+
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L308-L310
+
+```diff
+FILE: 2023-07-arcade/contracts/ArcadeTreasury.sol
+
+Saves 100 GAS,1 SLOD
+
+307: // enforce cool down period
++ uint48 _token = lastAllowanceSet[token];
+- 308:        if (uint48(block.timestamp) < lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN) {
++ 308:        if (uint48(block.timestamp) < _token  + SET_ALLOWANCE_COOL_DOWN) {
+- 309:            revert T_CoolDownPeriod(block.timestamp, lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN);
++ 309:            revert T_CoolDownPeriod(block.timestamp, _token  + SET_ALLOWANCE_COOL_DOWN);
+310:        }
+
+```
+
+### ``amountClaimed[recipient][tokenId]`` should be cached : Saves ``100 GAS, 1 SLOD``
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/ReputationBadge.sol#L111-L116
+
+```diff
+FILE: Breadcrumbs2023-07-arcade/contracts/nft/ReputationBadge.sol
+
+ uint48 claimExpiration = claimExpirations[tokenId];
++  uint256 recipienttokenId = amountClaimed[recipient][tokenId] ;
+        if (block.timestamp > claimExpiration) revert RB_ClaimingExpired(claimExpiration, uint48(block.timestamp));
+        if (msg.value < mintPrice) revert RB_InvalidMintFee(mintPrice, msg.value);
+        if (!_verifyClaim(recipient, tokenId, totalClaimable, merkleProof)) revert RB_InvalidMerkleProof();
+-         if (amountClaimed[recipient][tokenId] + amount > totalClaimable) {
++         if (recipienttokenId + amount > totalClaimable) {
+            revert RB_InvalidClaimAmount(amount, totalClaimable);
+        }
+
+        // increment amount claimed
+-         amountClaimed[recipient][tokenId] += amount;
++         amountClaimed[recipient][tokenId] = recipienttokenId + amount;
 
 
 ```
+
+##
+
+## [G-6] Don't emit state variable when stack variable available
+
+### Saves ``200 GAS``, ``2 SLODs ``
+
+If stack can be emitted when ever available to save gas 
+
+### ``_newMinter`` can be used instead of ``minter`` state variable : Saves ``100 GAS``,``1 SLOD``
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeToken.sol#L136
+
+```diff
+FILE: Breadcrumbs2023-07-arcade/contracts/token/ArcadeToken.sol
+
+135:   minter = _newMinter;
+- 136:   emit MinterUpdated(minter);
++ 136:   emit MinterUpdated(_newMinter);
+
+```
+### ``delegatee`` can be used instead of ``grant.delegatee`` state variable : Saves ``100 GAS``,``1 SLOD``
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L148
+
+
+
+```diff
+FILE: Breadcrumbs2023-07-arcade/contracts/ARCDVestingVault.sol
+
+138: grant.delegatee = delegatee;
+
+- 148: emit VoteChange(grant.delegatee, who, int256(uint256(newVotingPower)));
++ 148: emit VoteChange(delegatee, who, int256(uint256(newVotingPower)));
+
+```
+
+##
+
+## [G-7] Use calldata instead of memory for function parameters
+
+#### Saves ``572 GAS``
+
+#### Note: Missed instance in bot race 
+
+### ``calldata`` can be used instead of ``memory`` : Saves ``572 GAS``
+
+If you are not modifying the function parameters, consider using calldata instead of memory. This will save gas.
+
+```diff
+FILE: Breadcrumbs2023-07-arcade/contracts/nft/BadgeDescriptor.sol
+
+- 57: function setBaseURI(string memory newBaseURI) external onlyOwner {
++ 57: function setBaseURI(string calldata newBaseURI) external onlyOwner {
+58:        baseURI = newBaseURI;
+59:
+60:        emit SetBaseURI(msg.sender, newBaseURI);
+61:    }
+
+```
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L334
+
+```diff
+FILE: 2023-07-arcade/contracts/ArcadeTreasury.sol
+
+333: function batchCalls(
+- 334:        address[] memory targets,
++ 334:        address[] calldata targets,
+335:        bytes[] calldata calldatas
+336:    ) external onlyRole(ADMIN_ROLE) nonReentrant {
+
+
+```
+
+# NEW GAS SUGGESTIONS
+
+##
+
+## [G-8] ``batchCalls`` function, if a single call fails, the entire transaction will be reverted
+
+In the ``batchCalls`` function, if a single call fails, the entire transaction will be reverted, and the gas spent on previous successful calls will not be refunded. Consider using a different design that allows partial success and refunds gas for successful calls while reverting only the failed ones.
+
+```solidity
+FILE: 2023-07-arcade/contracts/ArcadeTreasury.sol
+
+function batchCalls(
+        address[] memory targets,
+        bytes[] calldata calldatas
+    ) external onlyRole(ADMIN_ROLE) nonReentrant {
+        if (targets.length != calldatas.length) revert T_ArrayLengthMismatch();
+        // execute a package of low level calls
+        for (uint256 i = 0; i < targets.length; ++i) {
+            if (spendThresholds[targets[i]].small != 0) revert T_InvalidTarget(targets[i]);
+            (bool success, ) = targets[i].call(calldatas[i]);
+            // revert if a single call fails
+            if (!success) revert T_CallFailed();
+        }
+    }
+
+```
+
+##
+
+## [G-9] Use ``safeIncreaseAllowance()`` and ``safeDecreaseAllowance()`` instead of ``approve()``
+
+safeIncreaseAllowance()/safeDecreaseAllowance() functions are more gas-efficient consider with ``approve()`` function. The ``approve()`` function is a standard ERC20 function that allows you to set the allowance for another account to spend your tokens. However, the ``approve()`` function is not gas-efficient.
+
+```solidity
+FILE: Breadcrumbs2023-07-arcade/contracts/ArcadeTreasury.sol
+
+200:  _approve(token, spender, amount, spendThresholds[token].small);
+
+219: _approve(token, spender, amount, spendThresholds[token].small);
+
+238:  _approve(token, spender, amount, spendThresholds[token].medium);
+
+257: _approve(token, spender, amount, spendThresholds[token].large);
+
+391:   IERC20(token).approve(spender, amount);
+
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L391
+
+
+
+
 
