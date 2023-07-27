@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "caventa",
+  "risk": "2",
+  "title": "Setting gsc allowance value in ArcadeTreasury#setThreshold should update lastAllowanceSet timestamp value",
+  "issueId": 238,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/238"
+}
