@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "trachev",
+  "risk": "3",
+  "title": "NFTBoostVault manager can reduce users' voting power by setting multiplier to 0",
+  "issueId": 249,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/249"
+}
