@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "`DAY_IN_BLOCKS` constant doesn't reflect the true block time",
+  "issueId": 228,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/228"
+}
