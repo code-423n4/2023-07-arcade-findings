@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "`ArcadeToken::setMinter` and some functions from `ArcadeTokenDistributor`  should use a two-step process",
+  "issueId": 242,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/242"
+}
