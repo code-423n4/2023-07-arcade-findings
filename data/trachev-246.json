@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "trachev",
+  "risk": "2",
+  "title": "User can lose funds when minting ReputationBadge token.",
+  "issueId": 246,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/246"
+}
