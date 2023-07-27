@@ -82,14 +82,131 @@ Cooldown period can be set by the contract owner or by a governance mechanism. T
 
 ##
 
-## [L-4] 
+## [L-4] Lack of ``nonReentrant`` modifier in critical ``withdraw``,``reclaim()`` functions
 
+### Impact
+The withdraw function should have a reentrancy modifier to protect against reentrancy attacks. Although the function already checks for the available balance (unassigned.data) and transfers the tokens using token.safeTransfer, it is still vulnerable to reentrancy attacks if the token.safeTransfer function itself or any other function it calls contains external contract calls
 
+### POC
 
+```solidity
+FILE: 2023-07-arcade/contracts/ARCDVestingVault.sol
 
+function withdraw(uint256 amount, address recipient) external override onlyManager {
+        Storage.Uint256 storage unassigned = _unassigned();
+        if (unassigned.data < amount) revert AVV_InsufficientBalance(unassigned.data);
+        // update unassigned value
+        unassigned.data -= amount;
 
+        token.safeTransfer(recipient, amount);
+    }
 
-## [L-1] Lack of same value input control in critical setMinter() functions
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L211-L218
+
+```solidity
+FILE: Breadcrumbs2023-07-arcade/contracts/token/ArcadeAirdrop.sol
+
+function reclaim(address destination) external onlyOwner {
+        if (block.timestamp <= expiration) revert AA_ClaimingNotExpired();
+        if (destination == address(0)) revert AA_ZeroAddress("destination");
+
+        uint256 unclaimed = token.balanceOf(address(this));
+        token.safeTransfer(destination, unclaimed);
+    }
+
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeAirdrop.sol#L62
+
+### Recommended Mitigation
+Use ``nonReentrant`` to avoid reentrancy attacks. And this gives extra layer of safety .
+
+##
+
+## [L-5] The ``addGrantAndDelegate`` function not checked the new ``delegatee`` already has an active grant
+
+### Impact
+The function ``addGrantAndDelegate`` allows the manager to create a new grant without checking if the grant recipient already has an active grant. If a user already has an active grant, this function will overwrite the existing grant, which might lead to unintended behavior. It would be better to check if the recipient already has a grant and handle this situation accordingly.
+
+### POC
+
+```solidity
+FILE: 2023-07-arcade/contracts/ARCDVestingVault.sol
+
+function addGrantAndDelegate(
+        address who,
+        uint128 amount,
+        uint128 cliffAmount,
+        uint128 startTime,
+        uint128 expiration,
+        uint128 cliff,
+        address delegatee
+    ) external onlyManager {
+        // input validation
+        if (who == address(0)) revert AVV_ZeroAddress("who");
+        if (amount == 0) revert AVV_InvalidAmount();
+
+        // if no custom start time is needed we use this block.
+        if (startTime == 0) {
+            startTime = uint128(block.number);
+        }
+        // grant schedule check
+        if (cliff >= expiration || cliff < startTime) revert AVV_InvalidSchedule();
+
+        // cliff check
+        if (cliffAmount >= amount) revert AVV_InvalidCliffAmount();
+
+        Storage.Uint256 storage unassigned = _unassigned();
+        if (unassigned.data < amount) revert AVV_InsufficientBalance(unassigned.data);
+
+        // load the grant
+        ARCDVestingVaultStorage.Grant storage grant = _grants()[who];
+
+        // if this address already has a grant, a different address must be provided
+        // topping up or editing active grants is not supported.
+        if (grant.allocation != 0) revert AVV_HasGrant();
+
+        // load the delegate. Defaults to the grant owner
+        delegatee = delegatee == address(0) ? who : delegatee;
+
+        // calculate the voting power. Assumes all voting power is initially locked.
+        uint128 newVotingPower = amount;
+
+        // set the new grant
+        grant.allocation = amount;
+        grant.cliffAmount = cliffAmount;
+        grant.withdrawn = 0;
+        grant.created = startTime;
+        grant.expiration = expiration;
+        grant.cliff = cliff;
+        grant.latestVotingPower = newVotingPower;
+        grant.delegatee = delegatee;
+
+        // update the amount of unassigned tokens
+        unassigned.data -= amount;
+
+        // update the delegatee's voting power
+        History.HistoricalBalances memory votingPower = _votingPower();
+        uint256 delegateeVotes = votingPower.loadTop(grant.delegatee);
+        votingPower.push(grant.delegatee, delegateeVotes + newVotingPower);
+
+        emit VoteChange(grant.delegatee, who, int256(uint256(newVotingPower)));
+    }
+
+```
+
+### Recommended Mitigation
+Add a check to ensure that the recipient does not already have an active grant
+
+```solidity
+ ARCDVestingVaultStorage.Grant storage existingGrant = _grants()[who];
+ if (existingGrant.allocation != 0) revert AVV_HasGrant();
+
+```
+
+##
+
+## [L-6] Lack of same value input control in critical setMinter() functions
 
 ###
 The same address value should be avoided 
@@ -117,8 +234,74 @@ Add same value input control
 ```
 require(_newMinter!=minter, "Same address value ")
 ```
+##
+
+## [L-7] Project Upgrade and Stop Scenario should be
+
+At the start of the project, the system may need to be stopped or upgraded, I suggest you have a script beforehand and add it to the documentation. This can also be called an ” EMERGENCY STOP (CIRCUIT BREAKER) PATTERN “.
+
+https://github.com/maxwoe/solidity_patterns/blob/master/security/EmergencyStop.sol
+
+##
+
+## [L-8] ``Accidental`` token transfers can't be recovered from contract
+
+### Impact
+Accidental token transfers are typically irreversible and cannot be recovered by the contract. Once tokens are transferred out of a contract, they are under the control of the recipient, and the contract has no authority to reverse or undo the transaction.
+
+### Recommended Mitigation
+
+```solidity
+function recoverToken(
+        address tokenAddress,
+        uint256 tokenId,
+        address recipient,
+        uint256 amount
+    ) external onlyOwnerOrAuthorized {
+        if (tokenAddress == address(0)) {
+            // Recover ERC20 tokens
+            IERC20(tokenAddress).transfer(recipient, amount);
+        } else {
+            // Recover ERC1155 NFTs
+            IERC1155(tokenAddress).safeTransferFrom(address(this), recipient, tokenId, amount, bytes(""));
+        }
+    }
+```
+
+##
+
+## [L-9] Lack of checks for critical ``baseURI`` string value 
+
+### Impact
+
+Empty base URI, which could lead to incorrect behavior when generating metadata URLs for ERC1155 NFTs.
+
+The setBaseURI function lacks proper checks for critical operations on the baseURI string value. It's important to validate and handle inputs to prevent potential vulnerabilities
+
+### POC
+
+```solidity
+FILE: 2023-07-arcade/contracts/nft/BadgeDescriptor.sol
+
+  function setBaseURI(string memory newBaseURI) external onlyOwner {
+        baseURI = newBaseURI;
+
+        emit SetBaseURI(msg.sender, newBaseURI);
+    }
 
 
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/BadgeDescriptor.sol#L57-L61
 
+### Recommended Mitigation
 
+```solidity
+
+ require(bytes(newBaseURI).length > 0, "Base URI cannot be empty");
+
+```
+
+##
+
+## [L-10] 
 
