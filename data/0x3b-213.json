@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0x3b",
+  "risk": "2",
+  "title": "User who have claimed before the update on the merkle tree will have no shares of the rewards afterwards",
+  "issueId": 213,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/213"
+}
