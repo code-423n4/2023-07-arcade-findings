@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "kutugu",
+  "risk": "2",
+  "title": "getMultiplier implementation error that could result in users losing their votePower",
+  "issueId": 214,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/214"
+}
