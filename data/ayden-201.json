@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ayden",
+  "risk": "2",
+  "title": "The \"findAndClear\" function will loop more times because the \"staleBlock\" parameter value was mistakenly passed",
+  "issueId": 201,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/201"
+}
