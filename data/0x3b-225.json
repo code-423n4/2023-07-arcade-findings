@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0x3b",
+  "risk": "2",
+  "title": "`setMultiplier` does not sync the voting power, and voters can abuse it by not refreshing their voting power before a vote",
+  "issueId": 225,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/225"
+}
