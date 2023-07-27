@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "adeolu",
+  "risk": "2",
+  "title": "possible array mismatch in vote() of coreVoting.sol",
+  "issueId": 217,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/217"
+}
