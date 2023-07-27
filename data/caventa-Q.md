@@ -125,3 +125,21 @@ Although there is no severity issue if somebody does so, it should be prevented
 Recommendation
 
 Ensure if registration.tokenAddress == newTokenAddress, make sure registration.tokenId != newTokenId
+
+5.
+
+See ARCDVestingVault#addGrantAndDelegate
+
+```solidity
+if (cliff >= expiration || cliff < startTime) revert AVV_InvalidSchedule();
+```
+
+should be changed to 
+
+```solidity
+if (cliff >= expiration || cliff <= startTime) revert AVV_InvalidSchedule();
+```
+
+Because
+
+cliff should not equal to startTime
