@@ -154,15 +154,15 @@ Using a two-step change mechanism (i.e. setting the new address to a temporary v
 
 ## [L-02] Missing input validation of calldata can lead to revert during proposal execution
 
-The _getFunctionSelector() function is an internal helper function to get the function selector of a calldata string (calldata provided from the [proposal() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L154)). But this function does not check if the calldata provided has a length >= 4. This can lead to an invalid function selector being returned to the proposal() function. Additionally since the calldata is invalid, it will lead to the proposal failing during execution. 
+The _getSelector() function is an internal helper function to get the function selector of a calldata string (calldata provided from the [proposal() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L154)). But this function does not check if the calldata provided has a length >= 4. This can lead to an invalid function selector being returned to the proposal() function. Additionally since the calldata is invalid, it will lead to the proposal failing during execution. 
 
-[Statement in proposal() function calling _getFunctionSelector() function with calldata](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L154):
+[Statement in proposal() function calling _getSelector() function with calldata](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L154):
 ```solidity
 File: contracts/external/council/CoreVoting.sol
 154: bytes4 selector = _getSelector(calldatas[i]);
 ```
 
-[_getFunctionSelector() function without any calldata validation](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L365):
+[_getSelector() function without any calldata validation](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L365):
 ```solidity
 File: contracts/external/council/CoreVoting.sol
 ```solidity
@@ -192,7 +192,7 @@ File: contracts/external/council/CoreVoting.sol
 ```
 
 
-Solution: A check should be implemented to not only validate the calldata input to the _getFunctionSelector() function and ensure the correct selector is returned to the proposal() function but also to validate the calldata in general to prevent proposal failure during execution. (Note: Check added on Line 370)
+Solution: A check should be implemented to not only validate the calldata input to the _getSelector() function and ensure the correct selector is returned to the proposal() function but also to validate the calldata in general to prevent proposal failure during execution. (Note: Check added on Line 370)
 ```solidity
 File: contracts/external/council/CoreVoting.sol
 365:    function _getSelector(bytes memory _calldata)
@@ -210,6 +210,58 @@ File: contracts/external/council/CoreVoting.sol
 377:     }
 ```
 
+## [L-03] Missing SET_ALLOWANCE_COOL_DOWN check allows updating the gscAllowance of a token during the 7-day cool down period
+
+**Impact**: Once the gscAllowance for a token is updated, it should enforce the cool down period of 7 days. But the setThreshold() function does not do that, allowing the gscAllowance of any token to be updated. (Note: Although the setThreshold() function is used to set the spendThresholds of a token, it also sets the gscAllowance of a token if the existing value is higher than the small threshold the admin is setting).
+
+**Vulnerability details**:
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L281
+
+The if block below is in the [setThreshold() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L269). Unlike the [uint48(block.timestamp) < lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L308) check done in [setGSCAllowance() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L303), setThreshold() does not implement the check which allows updating gscAllowance for any token even during the cool down period.
+```solidity
+File: contracts/ArcadeTreasury.sol
+281:     if (thresholds.small < gscAllowance[token]) {
+282:             gscAllowance[token] = thresholds.small;
+283: 
+284:             emit GSCAllowanceUpdated(token, thresholds.small);
+285:     }
+```
+**Solution**: Add an [uint48(block.timestamp) < lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L308) check and update [lastAllowanceSet[token] = uint48(block.timestamp);](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L319C9-L319C59) as done in the [setGSCAllowance() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L303). Here is the code embedded with the solution to mitigate this issue:
+```solidity
+File: contracts/ArcadeTreasury.sol
+269:     function setThreshold(address token, SpendThreshold memory thresholds) external onlyRole(ADMIN_ROLE) {
+270:         // verify that the token is not the zero address
+271:         if (token == address(0)) revert T_ZeroAddress("token");
+272:         // verify small threshold is not zero
+273:         if (thresholds.small == 0) revert T_ZeroAmount();
+274: 
+275:         // verify thresholds are ascending from small to large
+276:         if (thresholds.large < thresholds.medium || thresholds.medium < thresholds.small) {
+277:             revert T_ThresholdsNotAscending();
+278:         }
+279:         //@audit check added below
+280:         if (uint48(block.timestamp) < lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN) {
+281:             revert T_CoolDownPeriod(block.timestamp, lastAllowanceSet[token] + SET_ALLOWANCE_COOL_DOWN);
+282:         }
+283: 
+284:         // if gscAllowance is greater than new small threshold, set it to the new small threshold
+285:         if (thresholds.small < gscAllowance[token]) {
+286:             gscAllowance[token] = thresholds.small;
+287:             lastAllowanceSet[token] = uint48(block.timestamp); //@audit allowance state updated here
+288:             emit GSCAllowanceUpdated(token, thresholds.small);
+289:         }
+290: 
+291:         // Overwrite the spend limits for specified token
+292:         spendThresholds[token] = thresholds;
+293: 
+294:         emit SpendThresholdsUpdated(token, thresholds);
+295:     }
+```
+This solution prevents updating the gscAllowance of a token which might be under the cooldown period and updates lastAllowanceSet[token] to current block.timestamp if the gscAllowance of the token was updated.
+
+**Note: I have included this issue in my low severity finding assuming that the admin is a good actor. In case the admin is not a good actor, I have submitted a high severity finding which addresses the impact on how the admin could exploit the ArcadeTreasury.sol contract.**
+
 ### Non-Critical issues: 4
-### Low severity issues: 2
-### Total: 40 instances over 6 issues
+### Low severity issues: 3
+### Total: 41 instances over 7 issues
