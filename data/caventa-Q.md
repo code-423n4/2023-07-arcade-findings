@@ -124,7 +124,9 @@ Although there is no severity issue if somebody does so, it should be prevented
 
 Recommendation
 
-Ensure if registration.tokenAddress == newTokenAddress, make sure registration.tokenId != newTokenId
+Ensure 
+
+if registration.tokenAddress == newTokenAddress, make sure registration.tokenId != newTokenId
 
 5.
 
