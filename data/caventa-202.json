@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "caventa",
+  "risk": "3",
+  "title": "Amount does not accrued correctly if admin addNftAndDelegate for more than 1 times",
+  "issueId": 202,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/202"
+}
