@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "MrPotatoMagic",
+  "risk": "3",
+  "title": "Admin and GSC Core Voting member can collude to drain ETH and ERC20 tokens from the ArcadeTreasury.sol contract",
+  "issueId": 247,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/247"
+}
