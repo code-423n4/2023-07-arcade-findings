@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "It won't be able to add another grant for a user via `ImmutableVestingVault` even if the previous grant for that user is already claimed",
+  "issueId": 240,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/240"
+}
