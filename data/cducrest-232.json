@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "cducrest",
+  "risk": "2",
+  "title": "NFTBoostVault does not handle NFT with id 0",
+  "issueId": 232,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/232"
+}
