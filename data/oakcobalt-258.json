@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "oakcobalt",
+  "risk": "2",
+  "title": "In treasury, wrong level of spending thresholds might be applied during checks, even only one token is concerned, causing transactions to unexpectedly revert",
+  "issueId": 258,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/258"
+}
