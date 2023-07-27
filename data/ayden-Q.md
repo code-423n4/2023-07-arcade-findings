@@ -15,3 +15,6 @@ https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.s
 4.`setToken` missing an event to record the newly set token address
 
 https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/token/ArcadeTokenDistributor.sol#L174#L179
+
+5.`publishRoots` should ensure tokenId>0
+Based on the known conditions, the ERC1155 NFT with tokenId=0 cannot be added to the NFTBoostVault pool
