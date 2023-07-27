@@ -152,6 +152,64 @@ File: contracts/token/ArcadeToken.sol
 
 Using a two-step change mechanism (i.e. setting the new address to a temporary variable and letting the new address accept the ownership by calling another function which finally sets the address/role) for both these issues can prevent the problems mentioned.
 
+## [L-02] Missing input validation of calldata can lead to revert during proposal execution
+
+The _getFunctionSelector() function is an internal helper function to get the function selector of a calldata string (calldata provided from the [proposal() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L154)). But this function does not check if the calldata provided has a length >= 4. This can lead to an invalid function selector being returned to the proposal() function. Additionally since the calldata is invalid, it will lead to the proposal failing during execution. 
+
+[Statement in proposal() function calling _getFunctionSelector() function with calldata](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L154):
+```solidity
+File: contracts/external/council/CoreVoting.sol
+154: bytes4 selector = _getSelector(calldatas[i]);
+```
+
+[_getFunctionSelector() function without any calldata validation](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L365):
+```solidity
+File: contracts/external/council/CoreVoting.sol
+```solidity
+File: contracts/external/council/CoreVoting.sol
+365:    function _getSelector(bytes memory _calldata)
+366:         internal
+367:         pure
+368:         returns (bytes4 out)
+369:     {
+370:         assembly {
+371:             out := and(
+372:                 mload(add(_calldata, 32)),
+373:                 0xFFFFFFFFF0000000000000000000000000000000000000000000000000000000
+374:             )
+375:         }
+376:     }
+```
+
+[Proposal execution in execute() function that leads to revert on invalid calldata being called](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/external/council/CoreVoting.sol#L297):
+```solidity
+File: contracts/external/council/CoreVoting.sol
+297:      for (uint256 i = 0; i < targets.length; i++) {
+298:             (bool success, ) = targets[i].call(calldatas[i]);
+299:             require(success, "Call failed");
+300: 
+301:       }
+```
+
+
+Solution: A check should be implemented to not only validate the calldata input to the _getFunctionSelector() function and ensure the correct selector is returned to the proposal() function but also to validate the calldata in general to prevent proposal failure during execution. (Note: Check added on Line 370)
+```solidity
+File: contracts/external/council/CoreVoting.sol
+365:    function _getSelector(bytes memory _calldata)
+366:         internal
+367:         pure
+368:         returns (bytes4 out)
+369:     {
+370:         require(_calldata.length >= 4, "Invalid input length"); //@audit check added here
+371:         assembly {
+372:             out := and(
+373:                 mload(add(_calldata, 32)),
+374:                 0xFFFFFFFFF0000000000000000000000000000000000000000000000000000000
+375:             )
+376:         }
+377:     }
+```
+
 ### Non-Critical issues: 4
-### Low severity issues: 1
-### Total: 39 instances over 4 issues
+### Low severity issues: 2
+### Total: 40 instances over 6 issues
