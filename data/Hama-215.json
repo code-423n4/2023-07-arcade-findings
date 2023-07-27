@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Hama",
+  "risk": "2",
+  "title": "Lack of Access Control in ARCDVestingVault Contract",
+  "issueId": 215,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/215"
+}
