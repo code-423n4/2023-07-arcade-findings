@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "kutugu",
+  "risk": "2",
+  "title": "approve can be frontrun attack",
+  "issueId": 211,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/211"
+}
