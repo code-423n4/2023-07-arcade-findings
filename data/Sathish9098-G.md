@@ -27,13 +27,14 @@ Gas optimizations can be done based on opcodes by using the following techniques
 | [G-6]    | Don't ``emit`` ``state variable`` when stack variable available | 2   | 200  |
 | [G-7]    | Use ``calldata`` instead of ``memory`` for function parameters  | 2   | 572   |
 |    |  |  |    |
-| [G-8]   | ``batchCalls`` function, if a single call fails, the entire transaction will be reverted | - |  -  |
-| [G-9]   | Use ``safeIncreaseAllowance()`` and ``safeDecreaseAllowance()`` instead of ``approve()`` | - |  -  |
+| [G-8]   | ``batchCalls`` function, if a single call fails, the entire transaction will be reverted | - |- |
+| [G-9]   | Use ``safeIncreaseAllowance()`` and ``safeDecreaseAllowance()`` instead of ``approve()``| - |  -|
+| [G-10]   | Functions like ``smallSpend``, ``mediumSpend``, and ``largeSpend`` have similar logic can be refactored to save large volume of GAS | - |  -|
 
 
 
 
-# TRADINAL GAS SAVINGS
+# TRADITIONAL GAS FINDINGS
 
 ##
 
@@ -677,7 +678,7 @@ function batchCalls(
 
 ## [G-9] Use ``safeIncreaseAllowance()`` and ``safeDecreaseAllowance()`` instead of ``approve()``
 
-safeIncreaseAllowance()/safeDecreaseAllowance() functions are more gas-efficient consider with ``approve()`` function. The ``approve()`` function is a standard ERC20 function that allows you to set the allowance for another account to spend your tokens. However, the ``approve()`` function is not gas-efficient.
+``safeIncreaseAllowance()/safeDecreaseAllowance()`` functions are more gas-efficient consider with ``approve()`` function. The ``approve()`` function is a standard ERC20 function that allows you to set the allowance for another account to spend your tokens. However, the ``approve()`` function is not gas-efficient.
 
 ```solidity
 FILE: Breadcrumbs2023-07-arcade/contracts/ArcadeTreasury.sol
@@ -694,6 +695,83 @@ FILE: Breadcrumbs2023-07-arcade/contracts/ArcadeTreasury.sol
 
 ```
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ArcadeTreasury.sol#L391
+
+##
+
+## [G-10] Functions like ``smallSpend``, ``mediumSpend``, and ``largeSpend`` have similar logic can be refactored to save large volume of GAS
+
+Consider ``refactoring`` the code to combine the common logic into a single function and call it from each respective function
+
+```solidity
+FILE: 2023-07-arcade/contracts/ArcadeTreasury.sol
+
+ function smallSpend(
+        address token,
+        uint256 amount,
+        address destination
+    ) external onlyRole(CORE_VOTING_ROLE) nonReentrant {
+        if (destination == address(0)) revert T_ZeroAddress("destination");
+        if (amount == 0) revert T_ZeroAmount();
+
+        _spend(token, amount, destination, spendThresholds[token].small);
+    }
+
+function mediumSpend(
+        address token,
+        uint256 amount,
+        address destination
+    ) external onlyRole(CORE_VOTING_ROLE) nonReentrant {
+        if (destination == address(0)) revert T_ZeroAddress("destination");
+        if (amount == 0) revert T_ZeroAmount();
+
+        _spend(token, amount, destination, spendThresholds[token].medium);
+    }
+
+ function largeSpend(
+        address token,
+        uint256 amount,
+        address destination
+    ) external onlyRole(CORE_VOTING_ROLE) nonReentrant {
+        if (destination == address(0)) revert T_ZeroAddress("destination");
+        if (amount == 0) revert T_ZeroAmount();
+
+        _spend(token, amount, destination, spendThresholds[token].large);
+    }
+
+### Recommended Mitigation
+
+```solidity
+FILE: Breadcrumbs2023-07-arcade/contracts/ArcadeTreasury.sol
+
+function spend(
+        address token,
+        uint256 amount,
+        address destination,
+        SpendingThreshold threshold
+    ) external onlyRole(CORE_VOTING_ROLE) nonReentrant {
+
+        if (destination == address(0)) revert T_ZeroAddress("destination");
+        if (amount == 0) revert T_ZeroAmount();
+        uint256 spendingThreshold;
+        if (threshold == SpendingThreshold.Small) {
+            spendingThreshold = spendThresholds[token].small;
+        } else if (threshold == SpendingThreshold.Medium) {
+            spendingThreshold = spendThresholds[token].medium;
+        } else if (threshold == SpendingThreshold.Large) {
+            spendingThreshold = spendThresholds[token].large;
+        } else {
+            revert("Invalid spending threshold");
+        }
+
+        _spendWithThreshold(token, amount, destination, spendingThreshold);
+    }
+
+```
+
+
+
+
+```
 
 
 
