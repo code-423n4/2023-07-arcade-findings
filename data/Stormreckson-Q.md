@@ -20,3 +20,9 @@ The `batchCalls` function lacks input validations for the `target` and `calldata
    AT_ZeroAddress("initialDistribution");
  
 In the constructor,checking if `_minter` and `_initialDistribution` addresses are not zero addresses. However, you should use the `require` statement instead of `if` conditions with revert statements. The `require` statement is a more conventional and readable way to handle such validations.
+
+4. https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/nft/ReputationBadge.sol#L140-L141
+
+`publishRoots` function
+ 
+The `publishRoots` function is responsible for updating the claim data used to validate user claims. It performs some input validation, such as checking the length of the input array and verifying the expiration of each claim. However, it does not validate or sanitize the `claimRoot`, `claimExpiration`, and `mintPrice` values provided in the `ClaimData` struct. It's crucial to ensure proper validation and sanitization of user-provided data to prevent potential vulnerabilities, such as malicious or unexpected inputs.
