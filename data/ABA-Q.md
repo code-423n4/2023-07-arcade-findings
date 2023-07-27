@@ -1,11 +1,11 @@
-# QA Report for contest
+# QA Report for contest Arcade.xyz
 
 ## Overview
-During the audit, 5 low, 4 non-critical and 3 refactoring issues were found.
+During the audit, 7 low, 4 non-critical and 3 refactoring issues were found.
 
 ### Low Risk Issues
 
-Total: 5 instances over 5 issues
+Total: 7 instances over 7 issues
 
 |#|Issue|Instances|
 |-|:-|:-:|
@@ -14,6 +14,8 @@ Total: 5 instances over 5 issues
 | [L-03] | Spending amounts limits in `ArcadeTreasury` can be equal | 1 |
 | [L-04] | `ARCDVestingVault::delegate` allows delegation to 0 address | 1 |
 | [L-05] | `ARCDVestingVault::delegate` allows delegation without a grant existing | 1 |
+| [L-06] | `NFTBoostVault::withdraw` does not check for valid registration | 1 |
+| [L-07] | `NFTBoostVault::withdraw` does not properly clear registration if full staked tokens are withdrawn | 1 |
 
 ### Refactoring Issues
 
@@ -36,7 +38,7 @@ Total: 3 instances over 4 issues
 | [NC-02]| Incorrect, incomplete or misleading documentation | 2 |
 
 #
-## Low Risk Issues (5)
+## Low Risk Issues (7)
 #
 
 ### [L-01] NFTBoostVault registration token address and tokenId can each be set to arbitrary values (but not at the same time)
@@ -177,7 +179,7 @@ Add a check for 0 address on the `to` argument
 ### [L-05]  `ARCDVestingVault::delegate` allows delegation without a grant existing
 ##### Description
 
-`ARCDVestingVault::delegate`'s purpose is to delegate the grant voting power to an address. The function unfortunatelly does not check if there actually is a grant associated with the caller. As such, a `grant` entry is created with only the delegate set to it.
+`ARCDVestingVault::delegate`'s purpose is to delegate the grant voting power to an address. The function unfortunately does not check if there actually is a grant associated with the caller. As such, a `grant` entry is created with only the delegate set to it.
 
 This breaks protocol invariant and may lead to more critical issues in the future.
 
@@ -192,9 +194,68 @@ Add a check that the grant is set, similar to the `claim` function:
 
 #
 
-#### Refactoring Issues (3)
+### [L-06] `NFTBoostVault::withdraw` does not check for valid registration
+##### Description
+
+When withdrawing via `NFTBoostVault::withdraw` the function does not check if there is a valid registration associated with the user. 
+Although function does revert, because of the `if (withdrawable < amount) revert NBV_InsufficientWithdrawableBalance(withdrawable);` check,  
+it should be first checked that a registration does exist
+
+##### Instances (1)
+
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L223-L236
+
+##### Recommendation
+
+Add the following check to the withdraw function:
+
+```Solidity
+        // If the registration does not have a delegatee, revert because the Registration
+        // is not initialized
+        if (registration.delegatee == address(0)) revert NBV_NoRegistration();
+```
+
 #
 
+### [L-07] `NFTBoostVault::withdraw` does not properly clear registration if full staked tokens are withdrawn
+##### Description
+
+`NFTBoostVault::withdraw` deletes a registration if the full staked amount is withdrawn. Due to a fault check (that actually comes from a different issue) a registration may come with a token address but not a token ID (or vice-versa). As such, clearing the registration as the current code does leaves either the injected `tokenAddress` or the `tokenId`
+
+```Solidity
+    if (registration.tokenAddress != address(0) && registration.tokenId != 0) {
+        _withdrawNft();
+    }
+    // delete registration. tokenId and token address already set to 0 in _withdrawNft()
+```
+
+The comment is actually wrong and in the described case it does not clear.
+
+##### Instances (1)
+
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L247-L250
+
+##### Recommendation
+
+Clear tokenAddress and tokenId after the if regardless:
+
+```diff
+        if (registration.withdrawn == registration.amount) {
+            if (registration.tokenAddress != address(0) && registration.tokenId != 0) {
+                _withdrawNft();
+            }
+-            // delete registration. tokenId and token address already set to 0 in _withdrawNft()
++            // delete registration
++            registration.tokenId = 0;
++            registration.tokenAddress = 0;
+            registration.amount = 0;
+            registration.latestVotingPower = 0;
+```
+
+#
+
+#### Refactoring Issues (3)
+#
 
 ### [R-01] No not revert when exceeding the maximum mint cap in `ArcadeToken`; mint the maximum instead
 ##### Description
