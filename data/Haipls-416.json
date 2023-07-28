@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Haipls",
+  "risk": "2",
+  "title": "Explicit restriction of using tokenId == 0",
+  "issueId": 416,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/416"
+}
