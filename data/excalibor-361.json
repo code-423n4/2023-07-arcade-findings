@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "excalibor",
+  "risk": "2",
+  "title": "`updateNft` has an unsafe callback",
+  "issueId": 361,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/361"
+}
