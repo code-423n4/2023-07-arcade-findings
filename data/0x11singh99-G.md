@@ -22,8 +22,7 @@ to zero.
 
 _Total 1 instance - 1 file:_
 
-### Instance#1 : Function `addGrantAndDelegate` adding new grants,updating not supported. So `grant.withdrawn`
- is already 0 , no need to update to 0 again.
+### Instance#1 : Function `addGrantAndDelegate` adding new grants,updating not supported. So `grant.withdrawn` is already 0 , no need to update to 0 again.
 
 ```solidity
 File:    contracts/ARCDVestingVault.sol
@@ -49,8 +48,7 @@ variable is recomputed each time that the variable is used, which wastes some ga
 
 _Total 6 instances - 2 files:_
 
-### Instance#1-3 : Assign direct calculated simple constant value to constant types after calculating this value 
-off chain(remix OR using vscode) rather calculating here in contract at the time of assigning.
+### Instance#1-3 : Assign direct calculated simple constant value to constant types after calculating this value off chain(remix OR using vscode) rather calculating here in contract at the time of assigning.
 
 ```solidity
 File : contracts/nft/ReputationBadge.sol
