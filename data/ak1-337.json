@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ak1",
+  "risk": "2",
+  "title": "NFTBoostVault.sol:  Vault can not handle the NFTs which has id value above max of uint128",
+  "issueId": 337,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/337"
+}
