@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "sunosuporno",
+  "risk": "2",
+  "title": "Lack of Separation of blockExpenditure for Spending and Approving Tokens.",
+  "issueId": 437,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/437"
+}
