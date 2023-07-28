@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ck",
+  "risk": "2",
+  "title": "voting power syncing of low amounts can break functionality",
+  "issueId": 342,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/342"
+}
