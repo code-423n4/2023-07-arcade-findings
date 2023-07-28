@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "osmanozdemir1",
+  "risk": "2",
+  "title": "The manager can update `claimData` in the middle of claiming period in `ReputationBadge.sol::publishRoots()` and cause users to lose funds",
+  "issueId": 425,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/425"
+}
