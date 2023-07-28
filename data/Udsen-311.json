@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Udsen",
+  "risk": "3",
+  "title": "IF FEE ON TRANSFER TOKEN CONFIGURED AS THE VOTING TOKEN FOR THE VAULT, IT COULD INTRODUCE ACCOUNTING ERROR FOR VOTE COUNT",
+  "issueId": 311,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/311"
+}
