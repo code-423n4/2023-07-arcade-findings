@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xLeveler",
+  "risk": "2",
+  "title": "[M -01] All thresholds in 'setThreshold` should be ascending but can be set to equal values",
+  "issueId": 448,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/448"
+}
