@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "`gscAllowance` CAN BE SET TO `thresholds.large` VALUE SINCE THERE IS NO EQUALITY CHECK FOR THE THREE THRESHOLD VALUES",
+  "issueId": 340,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/340"
+}
