@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xmuxyz",
+  "risk": "2",
+  "title": "Lack of calling the NFTBoostVault#`_syncVotingPower()` in the certain functions, which lead to that the voting power of the userAddresses, who call these functions, may not be increased for a long time",
+  "issueId": 287,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/287"
+}
