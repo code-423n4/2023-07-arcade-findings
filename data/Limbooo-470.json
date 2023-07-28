@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Limbooo",
+  "risk": "2",
+  "title": "Division-by-Zero Issue in ARCDVestingVault Prevent Executing `claim` and `revokeGrant`",
+  "issueId": 470,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/470"
+}
