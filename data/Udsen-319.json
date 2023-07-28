@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "`_newMinter` COULD BE SET TO A WRONG ADDRESS THUS FREEZING `onlyMinter` CONTROLLED FUNCTIONS",
+  "issueId": 319,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/319"
+}
