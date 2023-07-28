@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "BRONZEDISC",
+  "risk": "2",
+  "title": "Potential Transfer Failure in ReputationBadge Contract Due to Gas Limitations",
+  "issueId": 330,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/330"
+}
