@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "natzuu",
+  "risk": "2",
+  "title": "Lack of two-step role transfer in setMinter() function ArcadeToken.sol",
+  "issueId": 482,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/482"
+}
