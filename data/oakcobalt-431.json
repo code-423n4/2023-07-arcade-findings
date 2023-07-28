@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "oakcobalt",
+  "risk": "3",
+  "title": "Delegate's votes will very likely be mis-accounted in voting, when a multiplier is updated close to or right before proposal creation",
+  "issueId": 431,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/431"
+}
