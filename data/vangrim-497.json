@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "vangrim",
+  "risk": "2",
+  "title": "[MEDIUM] ARCDVestingVault#deposit and NFTBoostVault#_lockTokens- Unsafe transferFrom function is not properly invoked",
+  "issueId": 497,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/497"
+}
