@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "Malicious actors could pass in huge arrays to disrupt service availability (DOS) in the updateVotingPower function",
+  "issueId": 404,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/404"
+}
