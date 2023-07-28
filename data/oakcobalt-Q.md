@@ -1,5 +1,3 @@
-See the markdown file with the details of this report [here](https://github.com/code-423n4/2023-07-arcade-findings/blob/main/data/oakcobalt-Q.md).
-
 ### 1. In ArcadeTreasury.sol, the cool-down period restrictions can be bypassed, by updating setThreshold with a thresholds.small value below current allowance.
 
 In `setThreshold()`, when the new `thresholds.small` value is less than existing GSC allowance `gscAllowance[token]`, `gscAllowance` will be reset. This bypass the mandatory cool-down period control in `setGSCAllowance()`.
