@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Jiamin",
+  "risk": "3",
+  "title": "Token allowance given to an address by GSC is not revoked when GSC allowance is decreased",
+  "issueId": 289,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/289"
+}
