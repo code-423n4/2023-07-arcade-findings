@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "tallo",
+  "risk": "3",
+  "title": "ArcadeTreasury is not compatible with multi-address/Double-entrypoint tokens which can lead to governance being bypassed ",
+  "issueId": 271,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/271"
+}
