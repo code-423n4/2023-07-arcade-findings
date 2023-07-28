@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "tallo",
+  "risk": "3",
+  "title": "An admin can drain the treasury by calling permit on its underlying tokens before its registered",
+  "issueId": 280,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/280"
+}
