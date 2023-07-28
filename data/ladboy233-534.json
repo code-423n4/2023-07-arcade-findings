@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Malicious proposal can drain the treasury contract and bypass the gscAllowance[token] check",
+  "issueId": 534,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/534"
+}
