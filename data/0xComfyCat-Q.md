@@ -17,3 +17,34 @@ ArcadeMerkleRewards `claimAndDelegate` revert if `delegate` is address(0) so cla
 
 ## Recommended Mitigation Steps
 Remove address(0) check during `claimAndDelegate`
+
+# [L-02] User can lock arbitrary ERC1155 and make their voting power 0
+
+## Impact
+During registration via `addNftAndDelegate`, vault will reject the registration if the supplied ERC1155 has 0 multiplier. But user can still lock an ERC1155 that has 0 multiplier via `updateNft` and make their voting power 0. Technically user can lock arbitrary contract that implements ERC1155 interface.
+
+## Proof of Concept
+```
+    function testUpdateRandomERC1155MakeVotingPowerZero() public {
+        arcadeToken.approve(address(nftBoostVault), 1 ether);
+        nftBoostVault.addNftAndDelegate(1 ether, 0, address(0), address(0));
+        assertEq(nftBoostVault.queryVotePower(address(this), block.number, ""), 1 ether);
+
+        uint256 tokenId = 1;
+        mockERC1155.mint(address(this), tokenId, 1, "");
+        mockERC1155.setApprovalForAll(address(nftBoostVault), true);
+        nftBoostVault.updateNft(uint128(tokenId), address(mockERC1155));
+        assertEq(nftBoostVault.queryVotePower(address(this), block.number, ""), 0);
+    }
+```
+
+## Recommended Mitigation Steps
+Validate multiplier > 0 when `updateNft`
+```
+    function updateNft(uint128 newTokenId, address newTokenAddress) external override nonReentrant {
+        if (newTokenAddress == address(0) || newTokenId == 0) revert NBV_InvalidNft(newTokenAddress, newTokenId);
+
+        if (IERC1155(newTokenAddress).balanceOf(msg.sender, newTokenId) == 0) revert NBV_DoesNotOwn();
+
+        if (getMultiplier(newTokenAddress, newTokenId) == 0) revert NBV_NoMultiplierSet();
+```
