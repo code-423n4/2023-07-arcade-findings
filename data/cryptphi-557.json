@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "cryptphi",
+  "risk": "2",
+  "title": "User can delegate to address(0) in ARCDVestingVault thereby increasing address(0) VotingPower",
+  "issueId": 557,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/557"
+}
