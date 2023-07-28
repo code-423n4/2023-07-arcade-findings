@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "Misunderstanding of _stale/staleBlockLag in ARCDVestingVault.sol leads to the wrong staleBlock parameter in findAndClear",
+  "issueId": 481,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/481"
+}
