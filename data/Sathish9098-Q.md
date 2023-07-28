@@ -335,6 +335,33 @@ https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f61
 ### Recommended Mitigation
 Use ERC721 instead ERC1155 
 
+##
+
+## [L-12]  ``batchCalls`` function, if a single call fails, the entire transaction will be reverted
+
+n the ``batchCalls`` function, if a single call fails, the entire transaction will be reverted, and the gas spent on previous successful calls will not be refunded. Consider using a different design that allows partial success and refunds gas for successful calls while reverting only the failed ones.
+
+```solidity
+FILE: 2023-07-arcade/contracts/ArcadeTreasury.sol
+
+function batchCalls(
+        address[] memory targets,
+        bytes[] calldata calldatas
+    ) external onlyRole(ADMIN_ROLE) nonReentrant {
+        if (targets.length != calldatas.length) revert T_ArrayLengthMismatch();
+        // execute a package of low level calls
+        for (uint256 i = 0; i < targets.length; ++i) {
+            if (spendThresholds[targets[i]].small != 0) revert T_InvalidTarget(targets[i]);
+            (bool success, ) = targets[i].call(calldatas[i]);
+            // revert if a single call fails
+            if (!success) revert T_CallFailed();
+        }
+    }
+
+```
+
+
+
 
 
 
