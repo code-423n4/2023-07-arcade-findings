@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Sathish9098",
+  "risk": "2",
+  "title": "``setGSCAllowance`` current implementation allows updating allowance even before over the cooldown period ",
+  "issueId": 306,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/306"
+}
