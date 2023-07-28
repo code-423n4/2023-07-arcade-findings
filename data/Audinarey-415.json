@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Audinarey",
+  "risk": "3",
+  "title": "_getSelector does not return the right selector",
+  "issueId": 415,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/415"
+}
