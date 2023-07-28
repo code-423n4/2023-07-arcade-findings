@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "foxb868",
+  "risk": "2",
+  "title": "Iterating through grant details (cliff, expiration, allocation) to determine the vesting status based on the current block number.",
+  "issueId": 292,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/292"
+}
