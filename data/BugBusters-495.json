@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "BugBusters",
+  "risk": "2",
+  "title": "Expiration in token airdrop is not inclusive of multiple airdrops and cannot be changed making contract unusable",
+  "issueId": 495,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/495"
+}
