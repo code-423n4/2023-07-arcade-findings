@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Udsen",
+  "risk": "3",
+  "title": "ADMIN CAN CHANGE THE `GSCAllowance` BEFORE THE COOL DOWN PERIOD HAS PASSED",
+  "issueId": 345,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/345"
+}
