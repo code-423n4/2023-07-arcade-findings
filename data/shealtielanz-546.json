@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "shealtielanz",
+  "risk": "3",
+  "title": "Unsafe downcast can lead to silent Overflow that causes accounting issues which can be exploited.",
+  "issueId": 546,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/546"
+}
