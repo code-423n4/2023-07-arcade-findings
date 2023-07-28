@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "NFTBoostVault.sol user can't use NFT with tokenID = 0",
+  "issueId": 457,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/457"
+}
