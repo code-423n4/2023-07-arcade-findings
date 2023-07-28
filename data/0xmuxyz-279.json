@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xmuxyz",
+  "risk": "3",
+  "title": "Lack of the input validation for the address assigned into the `to` parameter, which allowing the caller to be able to get much larger voting power than the caller is supposed to has",
+  "issueId": 279,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/279"
+}
