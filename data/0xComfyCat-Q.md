@@ -119,3 +119,7 @@ In `_syncVotingPower` internal function. It emits `grant.delegatee` as from and 
     // Event definition
     event VoteChange(address indexed from, address indexed to, int256 amount);
 ```
+
+# ArcadeToken `setMinter` should use 2 step role transfer
+
+For critical contract, to avoid mistake when transfer role, it should implement 2 step transfer mechanism similar to https://docs.openzeppelin.com/contracts/4.x/api/access#Ownable2Step
