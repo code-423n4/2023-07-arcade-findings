@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "vangrim",
+  "risk": "2",
+  "title": "ReputationBadge#WithdrawFees and ArcadeTreasury#_spend - Uses deprecated transfer() which might revert the entire transaction",
+  "issueId": 450,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/450"
+}
