@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "twcctop",
+  "risk": "2",
+  "title": "unsafe cast cause from uint256 to uint128   could cause lower withdrawn amount ",
+  "issueId": 332,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/332"
+}
