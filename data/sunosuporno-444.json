@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "sunosuporno",
+  "risk": "2",
+  "title": "Lack of Decimal Consideration for Token Operations",
+  "issueId": 444,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/444"
+}
