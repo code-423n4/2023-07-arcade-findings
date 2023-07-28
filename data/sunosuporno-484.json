@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "sunosuporno",
+  "risk": "2",
+  "title": "No check for mismatched array lengths in vote() function",
+  "issueId": 484,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/484"
+}
