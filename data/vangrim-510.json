@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "vangrim",
+  "risk": "2",
+  "title": "[MEDIUM] NFTBoostVault#addNftAndDelegate - Not setting a delegatee in the addNftAndDelegate will cause the addTokens function and updateNft to revert",
+  "issueId": 510,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/510"
+}
