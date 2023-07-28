@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "adeolu",
+  "risk": "2",
+  "title": "getMultiplier() will not return the multiplier value set if u set for  tokenId 0 of an nft collection via setMultiplier()",
+  "issueId": 363,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/363"
+}
