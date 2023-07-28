@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Shubham",
+  "risk": "2",
+  "title": "Threshold can have all three parameters set to same value making the ArcadeTreasury contract almost useless",
+  "issueId": 344,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/344"
+}
