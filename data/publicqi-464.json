@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "publicqi",
+  "risk": "2",
+  "title": "Tokens in ArcadeTreasury should have independent `blockExpenditure`",
+  "issueId": 464,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/464"
+}
