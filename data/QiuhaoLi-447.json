@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "QiuhaoLi",
+  "risk": "3",
+  "title": "NFTBoostVault.sol doesn't comply with ERC-1155 Token Receiver requests",
+  "issueId": 447,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/447"
+}
