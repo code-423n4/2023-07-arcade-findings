@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "DadeKuma",
+  "risk": "2",
+  "title": "Grant delegation to the zero address should not be possible",
+  "issueId": 414,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/414"
+}
