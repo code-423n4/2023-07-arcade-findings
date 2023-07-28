@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "publicqi",
+  "risk": "2",
+  "title": "No sanity check for amount in ReputationBadge.mint",
+  "issueId": 476,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/476"
+}
