@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "KupiaSec",
+  "risk": "2",
+  "title": "`_currentVotingPower()` shouldn't return 0 for delisted nfts",
+  "issueId": 369,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/369"
+}
