@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "LACK OF INPUT VALIDATION FOR THE `to` ADDRESS PASSED IN TO THE `ARCDVestingVault.delegate` FUNCTION",
+  "issueId": 315,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/315"
+}
