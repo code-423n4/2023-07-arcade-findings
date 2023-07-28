@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xmuxyz",
+  "risk": "2",
+  "title": "The `userAddresses` would manually be selected up to 50 by the caller, which lead to that some userAddresses will not be selected for a long time and therefore these userAddresses will not get the boosted-voting power for a long time",
+  "issueId": 281,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/281"
+}
