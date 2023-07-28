@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xMosh",
+  "risk": "3",
+  "title": "Voting can fail in early stage of voting in case of voter's voting power increase .",
+  "issueId": 515,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/515"
+}
