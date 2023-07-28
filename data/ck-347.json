@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ck",
+  "risk": "2",
+  "title": "A minimum multiplier value is not enforced in `NFTBoostVault::setMultiplier`",
+  "issueId": 347,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/347"
+}
