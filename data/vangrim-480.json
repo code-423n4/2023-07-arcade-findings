@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "vangrim",
+  "risk": "2",
+  "title": "[MEDIUM] - ArcadeTreasury#setGSCAllowance - doesn’t update outstanding approvals leading to a higher allowance than expected",
+  "issueId": 480,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/480"
+}
