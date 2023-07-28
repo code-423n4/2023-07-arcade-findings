@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "Implementation for the claimAndDelegate() in ArcadeAirdrop.sol is inconsistent with the airdropReceive() in NFTBoostVault.sol",
+  "issueId": 441,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/441"
+}
