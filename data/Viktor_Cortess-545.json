@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Viktor_Cortess",
+  "risk": "2",
+  "title": "If a lower multiplier for a particular NFT was set the owner of this NFT can avoid syncing votes with new values.",
+  "issueId": 545,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/545"
+}
