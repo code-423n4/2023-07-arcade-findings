@@ -116,7 +116,30 @@ File: contracts/token/ArcadeToken.sol
 97: uint256 public mintingAllowedAfter;
 ```
 
-### Total number of issues: 27
+## [G-04] Redundant check can be removed to save gas
+
+Total Gas saved: 12 gas (per all calls) **(Opcodes - EQ: 3 gas and OR: 3 gas)**
+There are 2 instances of this issue:
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L145
+
+The if check below is present in the [airdropReceive() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L139) in NFTBoostVault.sol contract. This function is only callable from the airdrop contract (i.e. [the ArcadeMerkleRewards.sol contract](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/libraries/ArcadeMerkleRewards.sol#L88) since ArcadeAirdrop.sol inherits from it). The user parameter passed in through the airdrop contract is the msg.sender, which can never be address(0) as no call can originate from the zero address. Thus, the check can be removed.
+```solidity
+File: contracts/NFTBoostVault.sol
+145: if (user == address(0)) revert NBV_ZeroAddress("user");
+```
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L422
+
+The if check below is present in the [getMultiplier() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L418C14-L418C27), which is only called by the [_registerAndDelegate() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L462) and [_currentVotingPower() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L627). Before calling the getMultiplier() function, both these functions implement a check to ensure the token address and token ID is not zero. Here are the checks for each function:  [_registerAndDelegate()](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L472) and [_currentVotingPower()](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L632). Thus, this check below can be removed as we never enter the if block.
+```solidity
+File: contracts/NFTBoostVault.sol
+422:     if (tokenAddress == address(0) || tokenId == 0) {
+423:             return 1e3;
+424:     }
+```
+
+### Total number of issues: 29
 ### A] Total deployment cost: 120178 gas saved
-### B] Total function execution cost: 1926 gas saved (per all calls)
-### Total gas saved [A + B]: 122104 gas saved
+### B] Total function execution cost: 1938 gas saved (per all calls)
+### Total gas saved [A + B]: 122116 gas saved
