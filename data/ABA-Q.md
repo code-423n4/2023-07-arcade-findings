@@ -1,11 +1,11 @@
 # QA Report for contest Arcade.xyz
 
 ## Overview
-During the audit, 7 low, 4 non-critical and 3 refactoring issues were found.
+During the audit, 9 low, 4 non-critical and 3 refactoring issues were found.
 
 ### Low Risk Issues
 
-Total: 7 instances over 7 issues
+Total: 10 instances over 9 issues
 
 |#|Issue|Instances|
 |-|:-|:-:|
@@ -16,6 +16,8 @@ Total: 7 instances over 7 issues
 | [L-05] | `ARCDVestingVault::delegate` allows delegation without a grant existing | 1 |
 | [L-06] | `NFTBoostVault::withdraw` does not check for valid registration | 1 |
 | [L-07] | `NFTBoostVault::withdraw` does not properly clear registration if full staked tokens are withdrawn | 1 |
+| [L-08] | Voting power can delegated to multiple addresses in the same transaction | 2 |
+| [L-09] | Arcade voting power can be flash-loaned by both booster NFT and token logic | 1 |
 
 ### Refactoring Issues
 
@@ -38,7 +40,7 @@ Total: 3 instances over 4 issues
 | [NC-02]| Incorrect, incomplete or misleading documentation | 2 |
 
 #
-## Low Risk Issues (7)
+## Low Risk Issues (9)
 #
 
 ### [L-01] NFTBoostVault registration token address and tokenId can each be set to arbitrary values (but not at the same time)
@@ -253,6 +255,63 @@ Clear tokenAddress and tokenId after the if regardless:
 ```
 
 #
+
+### [L-08] Voting power can delegated to multiple addresses in the same transaction
+##### Description
+
+Both `ARCDVestingVault::delegate` and `NFTBoostVault::delegate` allow the delegation of voting power to happen multiple times in the same transactions.
+Because of the way proposal are created and voted to by `ArcadeGSCCoreVoting` (created at `block.number - 1`), this issue cannot be exploited. 
+However it still portraits as an issue which may lead to future exploits.
+
+##### Instances (2)
+
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L182
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ARCDVestingVault.sol#L260
+
+##### Recommendation
+
+Modify the delegate function in both cases to not allow multiple delegations in the same transaction.
+
+#
+
+### [L-09] Arcade voting power can be flash-loaned by both booster NFT and token logic
+##### Description
+
+In the Arcade ecosystem, to vote on a proposal, the `ArcadeGSCCoreVoting::vote` function is used. Function is [inherited from CoreVoting](https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/external/council/CoreVoting.sol#L215-L257) parent contract. Function is protected against flash-loan because when voting on a proposal (or creating one), the voting power of the calling user is retrieved from each voting vault via [IVotingVault::queryVotePower](https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/external/council/CoreVoting.sol#L234C1-L234C1) and, for voting/proposals, it is calculated at the block prior to proposal creation, as such although a flash loan can be created it does not help in this particular case.
+
+`BaseVotingVault::queryVotePower` calculates the voting power both by taking into consideration staked tokens and if the multiplier ERC1155 NFT (`ReputationBadge`) if present. Depositing the `ReputationBadge` NFT and withdrawing it can be done in the same transaction, making it susceptible to NFT flash-loans. Also, if withdrawals are enabled ([`BaseVotingVault::unlock`](https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L378) has been called) then the Arcade tokens themselves can also be flash-loaned.
+
+
+Over the years a number of NFT flash-loan mechanism have appeared. For example, Blur's Blend protocol. It it safe to assume that an NFT flash lending mechanism, or something similar to it, such as buying and selling an NFT using Seaport within the same transaction to "mimic" a flash loan, exist.
+
+Some observations:
+- NFTs can be deposited via `addNftAndDelegate` or `updateNft` but require an amount to be present
+- NFTs can always be withdrawn via `withdrawNft` and when the vault is unlocked via `withdraw` if all tokens are to be removed
+- tokens can be added via `addNftAndDelegate` or `addTokens`
+- tokens can only be withdrawn via `withdraw` and only if the vault is unlocked
+
+There are 2 possible scenarios:
+1. contract is not unlocked and attacker already has a token amount staked
+    - in this case only the NFT can be flash-loaned
+2. contract is unlocked
+    - in this case both tokens and NFT can be flash-loaned
+
+##### Instances (1)
+
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L114 
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L223 
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L266 
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L293 
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L305
+
+##### Recommendation
+
+Modify code to:
+- not allow both deposit of ERC1155 NFT (via `addNftAndDelegate` or `updateNft`) and withdraw (via `withdrawNft` or `withdraw`) in the same transaction
+- not allow both deposit of tokens (via `addNftAndDelegate` or `addTokens`) and withdraw (if enabled) via `withdraw` in the same transaction
+
+#
+
 
 #### Refactoring Issues (3)
 #
