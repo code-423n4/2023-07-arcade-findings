@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "foxb868",
+  "risk": "3",
+  "title": "Higher gas costs for users claiming their vested tokens, particularly under high load or when numerous grants are present.",
+  "issueId": 295,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/295"
+}
