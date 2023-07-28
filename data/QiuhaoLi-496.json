@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "QiuhaoLi",
+  "risk": "3",
+  "title": "Logic error in ArcadeTreasury.sol._spend(): mismatch spentThisBlock and spendThresholds",
+  "issueId": 496,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/496"
+}
