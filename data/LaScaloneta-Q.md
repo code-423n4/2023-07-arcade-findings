@@ -199,6 +199,36 @@ Some ERC20 tokens (like USDT) do not work when changing the allowance from an ex
 Instances:
 - [ArcadeMerkleRewards.sol#L86](https://github.com/code-423n4/2023-07-arcade/blob/88dcbdedebc506284fcfb3f14d20fc789ce811cf/contracts/libraries/ArcadeMerkleRewards.sol#L86)
 
+### L12 - Missing `payable` on `batchCalls()` limits its use
+
+`ArcadeTreasury::batchCalls()` is a function to execute arbitrary calls from the treasury.
+
+The function is lacking a `payable` modifier, and the `.call()` instruction is not providing the `value`.
+
+This means that the function is unable to make calls that require Ether to be provided, limiting its use.
+
+```solidity
+    function batchCalls(
+        address[] memory targets,
+        bytes[] calldata calldatas
+    ) external onlyRole(ADMIN_ROLE) nonReentrant {
+        if (targets.length != calldatas.length) revert T_ArrayLengthMismatch();
+        // execute a package of low level calls
+        for (uint256 i = 0; i < targets.length; ++i) {
+            if (spendThresholds[targets[i]].small != 0) revert T_InvalidTarget(targets[i]);
+@>          (bool success, ) = targets[i].call(calldatas[i]);
+            // revert if a single call fails
+            if (!success) revert T_CallFailed();
+        }
+    }
+```
+
+[ArcadeTreasury.sol#L341](https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/ArcadeTreasury.sol#L341)
+
+### Recommended Mitigation Steps
+
+Add a `payable` modifier to the function, and provide the corresponding `value` for each of its calls, verifying they sum up to the provided `msg.value` to the function.
+
 ## Non-Critical Findings
 
 ### NC01 - `NFTBoostVault` sets an unused `initialized` value in storage
