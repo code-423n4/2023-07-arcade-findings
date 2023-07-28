@@ -738,6 +738,8 @@ function mediumSpend(
         _spend(token, amount, destination, spendThresholds[token].large);
     }
 
+```
+
 ### Recommended Mitigation
 
 ```solidity
@@ -771,7 +773,7 @@ function spend(
 
 
 
-```
+
 
 
 
