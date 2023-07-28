@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "A user could call mint() with less ETH than the mintPrice and improperly mint badges for a cheaper cost.",
+  "issueId": 554,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/554"
+}
