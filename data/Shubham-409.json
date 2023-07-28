@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Shubham",
+  "risk": "2",
+  "title": "Setting a multiplier for an ERC1155 can decrease the voting power more than if it hadn't been used at all. The new voting power may even be 0.",
+  "issueId": 409,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/409"
+}
