@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "The \"votingPowerBound\" variable is possible to be set smaller than \"minProposalPower\", which can enable users bypass the minProposalPower in coreVoting and directly become a GSC member",
+  "issueId": 430,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/430"
+}
