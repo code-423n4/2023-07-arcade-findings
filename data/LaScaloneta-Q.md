@@ -199,10 +199,6 @@ Some ERC20 tokens (like USDT) do not work when changing the allowance from an ex
 Instances:
 - [ArcadeMerkleRewards.sol#L86](https://github.com/code-423n4/2023-07-arcade/blob/88dcbdedebc506284fcfb3f14d20fc789ce811cf/contracts/libraries/ArcadeMerkleRewards.sol#L86)
 
-### Recommended Mitigation Steps
-
-Add a `payable` modifier to the function, and provide the corresponding `value` for each of its calls, verifying they sum up to the provided `msg.value` to the function.
-
 ## Non-Critical Findings
 
 ### NC01 - `NFTBoostVault` sets an unused `initialized` value in storage
