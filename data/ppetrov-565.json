@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ppetrov",
+  "risk": "2",
+  "title": "Batch function calls can use up all the gas and fail",
+  "issueId": 565,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/565"
+}
