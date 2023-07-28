@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xDING99YA",
+  "risk": "3",
+  "title": "Wrong Implementation of ArcadeGSCCoreVoting.sol makes the GSC doesn't work as expected",
+  "issueId": 284,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/284"
+}
