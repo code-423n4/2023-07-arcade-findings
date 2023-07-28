@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Audinarey",
+  "risk": "3",
+  "title": "User can drain all locked tokens during withdrawal and still retain their voting power",
+  "issueId": 341,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/341"
+}
