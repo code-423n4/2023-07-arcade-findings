@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "SAME `leaf` CAN BE REPLAYED ON FORKED CHAINS BY AN ATTACKER TO LOCK FUNDS SINCE IT DOES NOT ADHERE TO `EIP712` (CROSS-CHAIN REPLAY ATTACKS)",
+  "issueId": 323,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/323"
+}
