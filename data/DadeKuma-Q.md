@@ -8,6 +8,7 @@
 | L-04 | `DAY_IN_BLOCKS` is too small after PoS          |
 | L-05 | NFT URI can be changed anytime                  |
 | L-06 | State variable shadowing                        |
+| L-07 | Withdrawals can be locked                       |
 
 
 ## [L-01] Grant `startTime` can be retroactive
@@ -138,3 +139,12 @@ File: contracts/NFTBoostVault.sol
 84: 		        uint256 staleBlockLag,
 ```
 https://github.com/code-423n4/2023-07-arcade/blob/88dcbdedebc506284fcfb3f14d20fc789ce811cf/contracts/NFTBoostVault.sol#L83-L84
+
+## [L-07] Withdrawals can be locked
+
+The owner of `NFTBoostVault` can lock withdrawals, so users may not be able to access their funds:
+
+```solidity
+if (getIsLocked() == 1) revert NBV_Locked();
+```
+https://github.com/code-423n4/2023-07-arcade/blob/main/contracts/NFTBoostVault.sol#L224
