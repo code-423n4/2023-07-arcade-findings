@@ -95,3 +95,27 @@ Since `addNftAndDelegate` only validate multipliers and transfer if both tokenAd
 
 ## Recommended Mitigation Steps
 Validate that both must be zero or non-zero at once
+
+# ARCDVestingVault `addGrantAndDelegate` startTime, cliff and expiration can be in the past
+
+## Impact
+Manager can accidentally create a grant that is immediately claimable or expired.
+
+## Recommended Mitigation Steps
+Validate startTime, cliff and expiration is later than current block
+```
+    if (startTime < block.number || cliff < block.number || expiration < block.number) revert AVV_InvalidSchedule();
+```
+
+# ARCDVestingVault VoteChange event emit wrong parameters
+
+In `_syncVotingPower` internal function. It emits `grant.delegatee` as from and `who` as to which should be swapped as it is synced from who to delegatee.
+```
+    function _syncVotingPower(address who, ARCDVestingVaultStorage.Grant storage grant) internal {
+        ...
+        emit VoteChange(grant.delegatee, who, change);
+    }
+
+    // Event definition
+    event VoteChange(address indexed from, address indexed to, int256 amount);
+```
