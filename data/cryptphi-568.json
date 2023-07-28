@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "cryptphi",
+  "risk": "2",
+  "title": "Reverts when a User claims Voting Power of address(0) where there exists some for address(0)",
+  "issueId": 568,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/568"
+}
