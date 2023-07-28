@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xComfyCat",
+  "risk": "2",
+  "title": "Execution result of a proposal that involve multiple spending/approving calls is affected by calls ordeing due to different tokens shared the same `blockExpenditure`",
+  "issueId": 433,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/433"
+}
