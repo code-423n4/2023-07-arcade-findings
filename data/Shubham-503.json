@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Shubham",
+  "risk": "2",
+  "title": "A grant cannot be removed if the user has already claimed/withdrawn all his tokens beforehand",
+  "issueId": 503,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/503"
+}
