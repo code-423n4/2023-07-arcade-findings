@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "osmanozdemir1",
+  "risk": "3",
+  "title": "Users who claimed an airdrop with a previous Merkle root won't be able to claim again even if they have more `totalGrant` in the new Merkle root",
+  "issueId": 353,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/353"
+}
