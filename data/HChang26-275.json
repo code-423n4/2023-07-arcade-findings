@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "HChang26",
+  "risk": "2",
+  "title": "uint128(addedVotingPower) can overflow",
+  "issueId": 275,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/275"
+}
