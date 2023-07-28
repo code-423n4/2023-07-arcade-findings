@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Breeje",
+  "risk": "2",
+  "title": "Wrong Implementation of `blockExpenditure` can lead to DoS for Small and Medium Spend despite not crossing limits.",
+  "issueId": 405,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/405"
+}
