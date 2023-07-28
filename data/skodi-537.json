@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "skodi",
+  "risk": "2",
+  "title": "faulty users can abuse the function `delegate` in `NFTBoostVault.sol`",
+  "issueId": 537,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/537"
+}
