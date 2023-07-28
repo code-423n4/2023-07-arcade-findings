@@ -122,7 +122,7 @@ File: contracts/ARCDVestingVault.sol
 
 If set incorrectly, these critical addresses cannot be changed and may leave certain functions stagnant.
 
-There are 2 instances of this issue:
+There are 3 instances of this issue:
 
 https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L174
 
@@ -150,7 +150,19 @@ File: contracts/token/ArcadeToken.sol
 137:     }
 ```
 
-Using a two-step change mechanism (i.e. setting the new address to a temporary variable and letting the new address accept the ownership by calling another function which finally sets the address/role) for both these issues can prevent the problems mentioned.
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/BaseVotingVault.sol#L68
+
+The timelock contract is responsible for changing the timelock address. If set incorrectly (intentionally or unintentionally), it can lead to the [setManager() function](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/BaseVotingVault.sol#L80C52-L80C64) remaining stagnant (i.e. no one will be able to set a manager for the contract anymore). This has a huge impact as the manager role is responsible for [adding](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L91)/[revoking](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L157) grants and [depositing](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L197)/[withdrawing](https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/ARCDVestingVault.sol#L211) tokens to the ARCDVestingVault.sol contract.
+```solidity
+File: contracts/BaseVotingVault.sol
+68:     function setTimelock(address timelock_) external onlyTimelock {
+69:         if (timelock_ == address(0)) revert BVV_ZeroAddress("timelock");
+70: 
+71:         Storage.set(Storage.addressPtr("timelock"), timelock_);
+72:     }
+```
+
+Using a two-step change mechanism (i.e. setting the new address to a temporary variable and letting the new address accept the ownership by calling another function which finally sets the address/role) for these issues can prevent the problems mentioned.
 
 ## [L-02] Missing input validation of calldata can lead to revert during proposal execution
 
@@ -263,4 +275,4 @@ This solution prevents updating the gscAllowance of a token which might be under
 
 ### Non-Critical issues: 4
 ### Low severity issues: 3
-### Total: 41 instances over 7 issues
+### Total: 42 instances over 7 issues
