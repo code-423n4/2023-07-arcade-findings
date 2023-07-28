@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Haipls",
+  "risk": "2",
+  "title": "gscApprove does not guarantee that tokens will be spent, although it reduces gscAllowance for GSC_CORE_VOTING_ROLE",
+  "issueId": 382,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/382"
+}
