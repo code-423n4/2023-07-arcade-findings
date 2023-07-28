@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xComfyCat",
+  "risk": "2",
+  "title": "GSC can front run `setGSCAllowance` and `setThreshold` to spend all previous allowance before new one being set",
+  "issueId": 385,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/385"
+}
