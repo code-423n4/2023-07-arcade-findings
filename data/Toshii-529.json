@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "Toshii",
+  "risk": "2",
+  "title": "ImmutableVestingVault does not support multiple grants for the same recipient, breaking core logic",
+  "issueId": 529,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/529"
+}
