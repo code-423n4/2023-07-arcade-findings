@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "nirlin",
+  "risk": "3",
+  "title": "All token airdrop can be stolen by a malicious user due to hash collision in merkle tree leaves.",
+  "issueId": 423,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/423"
+}
