@@ -82,7 +82,7 @@ Cooldown period can be set by the contract owner or by a governance mechanism. T
 
 ##
 
-## [L-4] Lack of ``nonReentrant`` modifier in critical ``withdraw``,``reclaim()`` functions
+## [L-4] Lack of ``nonReentrant`` modifier in critical ``withdraw()``,``reclaim()`` functions
 
 ### Impact
 The withdraw function should have a reentrancy modifier to protect against reentrancy attacks. Although the function already checks for the available balance (unassigned.data) and transfers the tokens using token.safeTransfer, it is still vulnerable to reentrancy attacks if the token.safeTransfer function itself or any other function it calls contains external contract calls
@@ -206,7 +206,7 @@ Add a check to ensure that the recipient does not already have an active grant
 
 ##
 
-## [L-6] Lack of same value input control in critical setMinter() functions
+## [L-6] No same value input control in critical setMinter() functions
 
 ###
 The same address value should be avoided 
@@ -303,5 +303,38 @@ https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f61
 
 ##
 
-## [L-10] 
+## [L-10] No time lock mechanism to delay the distribution used critical toTreasury(),toDevPartner(),toCommunityRewards(),toCommunityAirdrop(), toTeamVesting(),toPartnerVesting() Functions 
+
+### Impact
+ If the functions is mistakenly called (e.g., due to human error or miscommunication) or maliciously triggered by an unauthorized entity, the tokens are transferred instantly to the addresses. Once the transfer is executed, it is irreversible, and there's no way to recover the tokens unless the receiver address voluntarily returns them.
+
+### POC
+
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/token/ArcadeTokenDistributor.sol#L72-L164
+
+### Recommended Mitigation
+The contract owner might set a time locks
+
+##
+
+## [L-11] Don't use ERC1155 
+
+### Impact
+The main limitation of ERC1155 is the lack of individual scarcity for each token. Since ERC1155 tokens can represent multiple types of assets, they do not possess the same level of uniqueness as ERC721 tokens .
+
+### POC
+
+```solidity
+FILE: Breadcrumbs2023-07-arcade/contracts/NFTBoostVault.sol
+
+5: import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+
+```
+https://github.com/code-423n4/2023-07-arcade/blob/f8ac4e7c4fdea559b73d9dd5606f618d4e6c73cd/contracts/NFTBoostVault.sol#L5
+
+### Recommended Mitigation
+Use ERC721 instead ERC1155 
+
+
+
 
