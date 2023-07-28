@@ -1,21 +1,19 @@
-# [L-01] `setThreshold` bypass set allowance cooldown
+# [L-01] Airdrop claimer cannot use address(0) to assign voting power to self when claim like in `addNftAndDelegate`
 
 ## Impact
-When new threshold is set, GSC allowance is being update according to new small threshold. But cooldown is not applied like `setGSCAllowance`.
+ArcadeMerkleRewards `claimAndDelegate` revert if `delegate` is address(0) so claimer can't pass address(0) to `airdropReceive` to default delegate to self like in `addNftAndDelegate`. If claimer want to delegate to self they must pass their own address.
 
 ## Proof of Concept
 ```
-    function testSetThresholdCooldownNotApplied() public {
-        vm.startPrank(governance);
-        IArcadeTreasury.SpendThreshold memory thresholds =
-            IArcadeTreasury.SpendThreshold({small: 1 ether, medium: 10 ether, large: 100 ether});
-        // Threshold is being set
-        arcadeTreasury.setThreshold(ETH_CONSTANT, thresholds);
-        // Allowance can be set again immediately in the same block after being set by `setThreshold`
-        arcadeTreasury.setGSCAllowance(ETH_CONSTANT, 0.9 ether);
-        vm.stopPrank();
+    function testAirdropClaimerCannotDelegateToSelfWithZeroAddress() public {
+        vm.startPrank(airdropReceiver);
+        // Can't do
+        vm.expectRevert(abi.encodeWithSignature("AA_ZeroAddress(string)", "delegate"));
+        arcadeAirdrop.claimAndDelegate(address(0), 1 ether, new bytes32[](0));
+        // This is fine
+        arcadeAirdrop.claimAndDelegate(airdropReceiver, 1 ether, new bytes32[](0));
     }
 ```
 
 ## Recommended Mitigation Steps
-Properly add cooldown if allowance is updated during set threshold
+Remove address(0) check during `claimAndDelegate`
