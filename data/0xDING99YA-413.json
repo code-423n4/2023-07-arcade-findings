@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "Users may call updateNft() in NFTBoostVault.sol with incorrect NFT accidentally and their voting power will be sync to zero.",
+  "issueId": 413,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/413"
+}
