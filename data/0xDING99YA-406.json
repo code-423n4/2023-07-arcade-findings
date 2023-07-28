@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xDING99YA",
+  "risk": "3",
+  "title": "Incorrect implementation of binary search in _find() in History.sol can make BaseVotingVault.sol break and cannot return correct staleIndex",
+  "issueId": 406,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/406"
+}
