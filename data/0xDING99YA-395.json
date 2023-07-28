@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "Not enough check in staleBlockLag variable in BaseVotingVault.sol may cause the voting system break",
+  "issueId": 395,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/395"
+}
