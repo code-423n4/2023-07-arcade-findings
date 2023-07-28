@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "0xMAKEOUTHILL",
+  "risk": "2",
+  "title": "User can be set with an NFT with multiplier = 0 and break delegatee votes",
+  "issueId": 428,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/428"
+}
