@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "ck",
+  "risk": "2",
+  "title": "`ArcadeTreasury::setThreshold` can set large, medium and small spend to the same value",
+  "issueId": 357,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/357"
+}
