@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "W0RR1O",
+  "risk": "2",
+  "title": "Denial of Service (DoS) Vulnerability due to Gas Block Limit in the contract `ReputationBadge.sol`",
+  "issueId": 303,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/303"
+}
