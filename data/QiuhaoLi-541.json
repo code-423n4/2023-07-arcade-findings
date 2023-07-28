@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "token address checks in batchCalls can be bypassed with approve call on unset tokens",
+  "issueId": 541,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/541"
+}
