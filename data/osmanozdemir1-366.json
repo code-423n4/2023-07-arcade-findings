@@ -1,0 +1,8 @@
+{
+  "contest": 264,
+  "handle": "osmanozdemir1",
+  "risk": "3",
+  "title": "Users' registration amounts and contract balance state will be incremented incorrectly if the `NFTBoostVault::_lockTokens()` silently fails",
+  "issueId": 366,
+  "issueUrl": "https://github.com/code-423n4/2023-07-arcade-findings/issues/366"
+}
