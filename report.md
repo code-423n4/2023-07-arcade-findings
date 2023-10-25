@@ -1508,7 +1508,7 @@ The check on [NFTBoostVault.sol#L472](https://github.com/code-423n4/2023-07-arca
 
 ### Proof of Concept
 
-```solidity!
+```solidity
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
